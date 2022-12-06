@@ -1,0 +1,19 @@
+<div class="wrapper-login">
+    <mat-form-field appearance="fill" [style.width.px]="300" [style.margin.px]="10">
+      <mat-label>Adres email</mat-label>
+      <input matInput placeholder="nazwa@poczta.com" [formControl]="email" required>
+      <mat-error *ngIf="email.invalid">{{getErrorMessage('email')}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" [style.width.px]="300" [style.margin.px]="10">
+        <mat-label>Twoje Hasło</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="password" required (keyup.enter)="checkData()">
+        <mat-error *ngIf="password.invalid">{{getErrorMessage('password')}}</mat-error>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <div class="wrapper-login-error">
+      <mat-error *ngIf="loginError">Podany login lub hasło jest błędne</mat-error>
+    </div>
+    <button mat-button [style.width.px]="300" (click)="checkData()">Zaloguj</button>
+</div>

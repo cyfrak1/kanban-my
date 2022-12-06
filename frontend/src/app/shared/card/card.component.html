@@ -1,0 +1,21 @@
+<div class="wrapper-card" cdkDrag (click)="cardClicked()">
+    <header class="wrapper-card-container">
+        <div class="labels">
+            <app-label [text]="'Magda'" [labelType]="'TEXT'" [margin]="'2px'" [labelColor]="'#978AFF'"></app-label>
+            <app-label [text]="'Zrób'" [labelType]="'TEXT'" [margin]="'2px'" [labelColor]="'#1199EE'"></app-label>
+            <span class="material-symbols-outlined wrapper-card-container-icon">
+                add_circle
+            </span>
+        </div>
+        <span class="material-symbols-outlined wrapper-card-container-icon">
+            cancel
+        </span>
+    </header>
+    <article class="wrapper-card-text">
+        <p>{{text}}</p>
+    </article>
+    <footer class="wrapper-card-date">
+        <app-label [text]="tuskTermin" [labelType]="'DATE'"></app-label>
+        <div class="wrapper-card-date-dot" *ngIf="true"></div>
+    </footer>
+</div>

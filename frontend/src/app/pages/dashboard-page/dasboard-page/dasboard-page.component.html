@@ -1,0 +1,21 @@
+<div class="wrapper-dasboard" appScroll cdkDropList cdkDropListOrientation="horizontal" cdkDropListGroup #scrollFrame>
+    <nav class="navigation">
+        <span class="material-symbols-outlined">
+            add_circle
+        </span>
+    </nav>
+    <div class="card-container">
+        <app-bucket [title]="'Nowe'" [serialNumber]="1" (activateDialogLabel)="activateDialogLabel($event)"></app-bucket>
+    </div>
+    <div class="card-container" cdkDrag>
+        <app-bucket [title]="'Do weryfikacji'" [serialNumber]="2" (activateDialogLabel)="activateDialogLabel($event)"></app-bucket>
+    </div>
+    <div class="card-container" cdkDrag>
+        <app-bucket [title]="'Gotowe'" [serialNumber]="3" (activateDialogLabel)="activateDialogLabel($event)"></app-bucket>
+    </div>
+    <div class="card-container" cdkDrag>
+        <app-bucket [title]="'Czeka'" [serialNumber]="4" (activateDialogLabel)="activateDialogLabel($event)"></app-bucket>
+    </div>
+</div>
+
+<!-- https://mdbootstrap.com/docs/angular/ nice libary for sortting -->

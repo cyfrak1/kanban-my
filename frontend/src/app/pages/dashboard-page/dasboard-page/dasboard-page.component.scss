@@ -1,0 +1,34 @@
+.wrapper-dasboard{
+    // width: fit-content;
+    height: 100vh;
+    display: flex;
+    padding-top: 80px;
+    padding-left: 10px;
+    overflow: scroll;
+    overflow-y: hidden;
+}
+.card-container{
+    width: fit-content;
+    height: fit-content;
+}
+.navigation{
+    height: 50px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: fixed;
+    top: 0;
+    padding: 50px;
+}
+.material-symbols-outlined{
+    font-size: 30px;
+    font-weight: bold;
+    color: #22CCDD;
+    cursor: pointer;
+}   
+::ng-deep .mat-dialog-container {
+    background: #F6F8FC;
+    border-top: 20px solid var(--borderColor);
+    border-radius: 20px !important;
+}

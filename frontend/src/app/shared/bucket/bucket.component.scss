@@ -1,0 +1,40 @@
+.wrapper-card{
+    width: 280px;
+    min-height: 150px;
+    max-height: calc(95vh - 70px);
+    overflow-y: auto;
+    background: #F6F8FC;
+    border-top: 10px solid #22CCDD;
+    border-radius: 10px;
+    padding: 10px 5px 0px 5px;
+    margin: 0 10px 0 10px;
+    box-shadow: 8px 8px 24px -24px rgba(66, 68, 90, 1);
+    &-title{
+        color: #777777;
+        font-family: 'Arimo', sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 0;
+    }
+}
+.button-container{
+    height: 90px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &-button{
+        border: none;
+        background: transparent;
+    }
+}
+.material-symbols-outlined{
+    font-size: 30px;
+    color: #DDDDDD;
+}
+.item{
+    background: #000;
+    width: 50px;
+    height: 50px;
+}

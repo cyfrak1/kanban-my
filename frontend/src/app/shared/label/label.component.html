@@ -1,0 +1,8 @@
+<div class="wrapper-label" [ngStyle]="styleObject()">
+    <ng-container *ngIf="labelType == 'DATE'; else elseTemplate">
+        <p class="wrapper-label-text" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text | date:'dd-MM-yyyy'}}</p>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <p class="wrapper-label-text" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
+    </ng-template>
+</div>
