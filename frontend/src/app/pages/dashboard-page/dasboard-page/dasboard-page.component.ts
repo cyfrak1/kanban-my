@@ -4,6 +4,8 @@ import {MatDialog} from '@angular/material/dialog';
 import { moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/label-dialog-window.component';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
+import { AuthStatusService } from 'src/app/core/services/auth-status/auth-status.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dasboard-page',
@@ -14,9 +16,12 @@ export class DasboardPageComponent implements OnInit {
 
   buckets : string[] = ['Nowe','Do werfikacji','Czekaj','Ukończone'];
   contextMenuState : boolean = false;
-  constructor(public dialog: MatDialog, private contextMenuService : ContextMenuService) { }
+  constructor(public dialog: MatDialog, private router : Router, private contextMenuService : ContextMenuService, private authStatusService : AuthStatusService) { }
 
   ngOnInit(): void {
+    if(this.authStatusService.showStatus() == 'DENIED'){
+      this.router.navigate(['/login']);
+    }
     this.contextMenuService.isContextMenuActiveListener().subscribe((res : boolean)=>{
       this.contextMenuState = res;
     });

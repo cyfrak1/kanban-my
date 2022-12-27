@@ -3,6 +3,7 @@ import {FormControl, Validators} from '@angular/forms';
 import { LoginService } from 'src/app/core/services/loginService/login.service';
 import { loginResInterface } from 'src/app/core/interfaces/loginResInterface';
 import { Router } from '@angular/router';
+import { AuthStatusService } from 'src/app/core/services/auth-status/auth-status.service';
 
 @Component({
   selector: 'app-login-page',
@@ -16,7 +17,7 @@ export class LoginPageComponent implements OnInit {
   hide : boolean = true;
   loginError : boolean = false;
 
-  constructor(private loginService : LoginService, private router : Router) { }
+  constructor(private loginService : LoginService, private router : Router, private authStatusService : AuthStatusService) { }
 
   ngOnInit(): void {
   }
@@ -34,6 +35,7 @@ export class LoginPageComponent implements OnInit {
       this.loginService.loginResListener().subscribe((data : loginResInterface )=> {
         if(data.status == "OK"){
           this.router.navigate(['/dashboard']);
+          this.authStatusService.setStatus(data.status);
         }
         else{
           this.loginError = true;
