@@ -42,6 +42,8 @@
             font-family: 'Arimo', sans-serif;
             font-size: 16px;
             padding: 15px;
+            user-select: none;
+            cursor: pointer;
         }
     }
     &-footer{
@@ -85,6 +87,20 @@
     resize: none;
     overflow: hidden;
     // padding: 15px;
+    &:focus{
+        outline: 0;
+    }
+}
+.edit-input-aside{
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    color: #777777;
+    font-family: 'Arimo', sans-serif;
+    font-size: 16px;
+    padding: 15px;
+    resize: none;
+    border: none;
     &:focus{
         outline: 0;
     }

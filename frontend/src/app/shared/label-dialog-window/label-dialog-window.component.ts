@@ -26,15 +26,15 @@ export class LabelDialogWindowComponent implements OnInit {
     this.dialogData = this.passDataToDialogService.passDataToDialog();
     document.documentElement.style.setProperty('--borderColor',this.dialogData.currentBucketColor);
   }
-  ngAfterViewInit(): void {
-    console.log(this.dialogData.labels)
-  }
   activeEditMode(editModeNumber : number) : void {
     this.editMode[editModeNumber].isActive = true;
   }
   deactivateEditMode(editModeNumber : number, newContent : string) : void {
     if(this.editMode[editModeNumber].modeName == "mainContent"){
       this.dialogData.mainContent = newContent;
+    }
+    else if(this.editMode[editModeNumber].modeName == "asideContent"){
+      this.dialogData.asideContent = newContent;
     }
     this.editMode[editModeNumber].isActive = false;
   }
@@ -44,11 +44,7 @@ export class LabelDialogWindowComponent implements OnInit {
       labelColor : '',
     });
   }
-  removeLabel(labelText : string) : void {
-    const labelIndex = this.dialogData.labels.findIndex((value , index)=> {
-      return value.labelText == labelText && index;
-    })
-    this.dialogData.labels.splice(labelIndex, 1);
-    console.log(this.dialogData.labels)
+  editLabel(labelText : string) : void {
+   
   }
 }

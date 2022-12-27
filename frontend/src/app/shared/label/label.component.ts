@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { labelType, labelColor } from 'src/app/core/types/labelType';
 import { labelSize } from 'src/app/core/interfaces/labelInterface';
 import { DatePipe } from '@angular/common';
@@ -10,11 +10,13 @@ import { DatePipe } from '@angular/common';
 })
 export class LabelComponent implements OnInit {
 
-  @Input() text : string | Date = 'Opis';
+  @Input() text : string = 'Opis';
   @Input() labelType : labelType = 'TEXT';
   @Input() size : labelSize = { width:70, height:20, fontSize:10};
   @Input() margin : string = '0px';
   @Input() labelColor : string = '#FF88AA';
+  @Output() textAfterEditMode = new EventEmitter<string>();
+  editMode : boolean = false;
 
   private dateDiference : number = 0;
 
@@ -32,12 +34,16 @@ export class LabelComponent implements OnInit {
     if(this.labelType == 'DATE'){
       this.changeLabelColorAccordingToDate();
     }
+    document.documentElement.style.setProperty("--labelWidth", `${this.size.width}px`);
+    document.documentElement.style.setProperty("--labelFont", `${this.size.fontSize}px`);
   }
 
   changeLabelColorAccordingToDate() : void {
     let currentDate : any = new Date();
-    let dateSent : any = new Date(this.text);
-    const diffTime = dateSent - currentDate;
+    let dateSentInArray : any = this.text.split('/')
+    let dateSentInUSFormat = `${dateSentInArray[1]}/${dateSentInArray[0]}/${dateSentInArray[2]}`;
+    let dateSentAsDate : any = new Date(dateSentInUSFormat);
+    const diffTime = dateSentAsDate - currentDate;
     this.dateDiference = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
     if(this.dateDiference == 1){
@@ -49,6 +55,15 @@ export class LabelComponent implements OnInit {
     else if(this.dateDiference > 1){
       this.labelColor = '#22AA99';
     }
-    this.text == dateSent;
+    this.text == dateSentAsDate;
+  }
+  activateEditMode() : void {
+    this.editMode = true;
+  }
+  disableEditMode( textAfterEditMode : string ) : void {
+    this.editMode = false;
+    this.textAfterEditMode.emit(textAfterEditMode);
+    this.text = textAfterEditMode;
+    this.changeLabelColorAccordingToDate();
   }
 }

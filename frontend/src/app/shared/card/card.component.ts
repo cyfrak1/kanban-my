@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { PassDataToDialogService } from 'src/app/core/services/pass-data-to-dialog/pass-data-to-dialog.service';
 import { labelData } from 'src/app/core/interfaces/labelInterface';
-
+import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -20,7 +20,7 @@ export class CardComponent implements OnInit {
     {labelText:'Magda', labelColor:'#978AFF'},
     {labelText:'Zrób', labelColor:'#1199EE'}
   ];
-  constructor(private passDataToDialogService : PassDataToDialogService) { }
+  constructor(private passDataToDialogService : PassDataToDialogService, private contextMenuService : ContextMenuService) { }
 
   ngOnInit(): void {
 
@@ -31,5 +31,13 @@ export class CardComponent implements OnInit {
   }
   drop(event: CdkDragDrop<any>) {
     // moveItemInArray(this.vegetables, event.previousIndex, event.currentIndex);
+  }
+  getMousePosition( event : MouseEvent ) : void {
+    this.contextMenuService.getContextMenuPosition({
+      positionX : event.clientX,
+      positionY : event.clientY
+    });
+    this.contextMenuService.updateContextMenuState(true);
+    this.passDataToDialogService.getDataToPass(this.text,this.asideText,this.currentBucketColor,this.tuskTermin,this.labels);
   }
 }

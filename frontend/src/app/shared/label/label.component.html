@@ -1,8 +1,18 @@
-<div class="wrapper-label" [ngStyle]="styleObject()">
-    <ng-container *ngIf="labelType == 'DATE'; else elseTemplate">
-        <p class="wrapper-label-text" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text | date:'dd-MM-yyyy'}}</p>
-    </ng-container>
-    <ng-template #elseTemplate>
+<div 
+    [ngClass]="editMode ? 'wrapper-label wrapper-label--editMode' : 'wrapper-label'" 
+    [ngStyle]="styleObject()"
+    (click)="activateEditMode()"
+>
+    <ng-container *ngIf="editMode == false"; else elseTemplate>
         <p class="wrapper-label-text" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
-    </ng-template>
+    </ng-container>
+    <input
+        type="text" 
+        size="auto"
+        #editInput
+        class="wrapper-label-input"
+        *ngIf="editMode" 
+        [value]="text"  
+        (keydown.enter)="disableEditMode(editInput.value)"
+    />
 </div>

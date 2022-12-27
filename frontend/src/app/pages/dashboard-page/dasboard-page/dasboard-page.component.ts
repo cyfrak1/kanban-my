@@ -3,7 +3,7 @@ import { CdkDragMove } from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import { moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/label-dialog-window.component';
-
+import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 
 @Component({
   selector: 'app-dasboard-page',
@@ -12,15 +12,21 @@ import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/l
 })
 export class DasboardPageComponent implements OnInit {
 
-  buckets : string[] = []
-  constructor(public dialog: MatDialog) { }
+  buckets : string[] = ['Nowe','Do werfikacji','Czekaj','Ukończone'];
+  contextMenuState : boolean = false;
+  constructor(public dialog: MatDialog, private contextMenuService : ContextMenuService) { }
 
   ngOnInit(): void {
-
+    this.contextMenuService.isContextMenuActiveListener().subscribe((res : boolean)=>{
+      this.contextMenuState = res;
+    });
   }
   activateDialogLabel( activate : boolean ) : void {
     if(activate){
       this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
+      if(this.contextMenuState){
+        this.changeContextMenuState();
+      }
     }
   }
   dragMove( event : CdkDragMove ) : void {
@@ -37,5 +43,11 @@ export class DasboardPageComponent implements OnInit {
         event.currentIndex,
       );
     }
+  }
+  createNewBucket() : void {
+    this.buckets.push('Nazwij mnie');
+  }
+  changeContextMenuState() : void {
+    this.contextMenuService.updateContextMenuState(false);
   }
 }

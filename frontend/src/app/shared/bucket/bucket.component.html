@@ -1,11 +1,16 @@
 <article class="wrapper-card" [ngStyle]="{'border-color': bucketColor}">
-    <h2 class="wrapper-card-title">{{title}}</h2>
-    <div  cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="array">
+    <ng-container *ngIf="isEditModeActive == false; else editModeTitle">
+        <h2 class="wrapper-card-title" (click)="activateEditMode()">{{title}}</h2>
+    </ng-container>
+    <ng-template #editModeTitle>
+        <input class="edit-input" #editInput value={{title}} (keydown.enter)="disableEditMode(editInput.value)"/>
+    </ng-template>
+    <div  cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="taskArray">
         <app-card 
-            *ngFor="let item of array" 
+            *ngFor="let item of taskArray" 
             [currentBucketColor]="bucketColor" 
             [text]="item" 
-            [tuskTermin]="'12/23/2022'"
+            [tuskTermin]="'23/12/2022'"
             (isButtonClicked)="isButtonClicked($event)"
         ></app-card>
         <div class="button-container">

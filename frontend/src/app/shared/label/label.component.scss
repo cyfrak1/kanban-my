@@ -12,4 +12,18 @@
         font-size: 10px;
         margin: 0;
     }
+    &-input{
+       height: 100%;
+       width: auto;
+       background: transparent;
+       color: #fff;
+       font-size: var(--labelFont);
+       border: none;
+       &:focus{
+        outline: 0;
+       }
+    }
+    &--editMode{
+        padding: 0;
+    }
 }

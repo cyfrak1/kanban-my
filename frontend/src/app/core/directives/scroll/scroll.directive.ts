@@ -14,6 +14,5 @@ export class ScrollDirective {
     else{
       this.element.nativeElement.scrollLeft -= 100;
     }
-    // console.log(this.element.nativeElement.scrollLeft)
   }
 }

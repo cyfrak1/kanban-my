@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { GetTaskService } from 'src/app/core/services/get-task/get-task.service';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-bucket',
@@ -13,16 +15,18 @@ export class BucketComponent implements OnInit {
 
   bucketsColors : string[] = ['#22CCDD','#BB66CC','#FFCC66','#CFFDE1','#DEBACE','#E9DAC1'];
   bucketColor : string = '';
-  array : string[] = ['Wow zrobiłeś to','super to zrobiłeś','prawie ci sie udało']
-  constructor() { }
+  taskArray : string[] = [];
+  isEditModeActive : boolean = false;
+
+  constructor( private getTaskService : GetTaskService, public dialog: MatDialog ) { }
 
   ngOnInit(): void {
     const isSerialNumberCorrect = this.checkSerialNumber();
     if(isSerialNumberCorrect){
       this.setBorderColor();
     }
+    this.taskArray = this.getTaskService.getTasksForBucket(this.title);
   }
-
   checkSerialNumber() : boolean {
     if(this.serialNumber == 0){
       console.error('Add serial number to card-component in html');
@@ -56,7 +60,15 @@ export class BucketComponent implements OnInit {
   }
 
   isButtonClicked( buttonState : boolean ) : void {
-    this.activateDialogLabel.emit(buttonState);
+    if(!this.dialog.openDialogs || !this.dialog.openDialogs.length){
+      this.activateDialogLabel.emit(buttonState);
+    }
   }
-
+  activateEditMode() : void {
+    this.isEditModeActive = true;
+  }
+  disableEditMode( value : string ) : void {
+    this.title = value;
+    this.isEditModeActive = false;
+  }
 }
