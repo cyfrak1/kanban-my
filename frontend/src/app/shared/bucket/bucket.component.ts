@@ -39,7 +39,7 @@ export class BucketComponent implements OnInit {
   setBorderColor() : void {
     let a : number = 0;
     for(let i : number = 1; i <= this.serialNumber; i++){
-      if(a == 7){
+      if(a == this.bucketsColors.length - 1){
         a = 0;
       }
       this.bucketColor = this.bucketsColors[a];

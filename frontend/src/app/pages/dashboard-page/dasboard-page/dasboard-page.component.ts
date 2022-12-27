@@ -20,7 +20,7 @@ export class DasboardPageComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.authStatusService.showStatus() == 'DENIED'){
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
     this.contextMenuService.isContextMenuActiveListener().subscribe((res : boolean)=>{
       this.contextMenuState = res;

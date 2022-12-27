@@ -3,7 +3,13 @@
         <h2 class="wrapper-card-title" (click)="activateEditMode()">{{title}}</h2>
     </ng-container>
     <ng-template #editModeTitle>
-        <input class="edit-input" #editInput value={{title}} (keydown.enter)="disableEditMode(editInput.value)"/>
+        <input 
+            class="edit-input" 
+            #editInput 
+            value={{title}} 
+            (keydown.enter)="disableEditMode(editInput.value)"
+            maxlength="18"
+        />
     </ng-template>
     <div  cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="taskArray">
         <app-card 

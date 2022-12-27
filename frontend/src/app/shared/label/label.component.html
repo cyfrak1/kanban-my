@@ -14,5 +14,6 @@
         *ngIf="editMode" 
         [value]="text"  
         (keydown.enter)="disableEditMode(editInput.value)"
+        maxlength="20"
     />
 </div>
