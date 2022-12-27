@@ -3,17 +3,26 @@
     [ngStyle]="styleObject()"
     (click)="activateEditMode()"
 >
-    <ng-container *ngIf="editMode == false"; else elseTemplate>
-        <p class="wrapper-label-text" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
-    </ng-container>
+
+    <p class="wrapper-label-text" *ngIf="editMode == false" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
     <input
         type="text" 
         size="auto"
         #editInput
         class="wrapper-label-input"
-        *ngIf="editMode" 
+        *ngIf="editMode  && labelType == 'TEXT'" 
         [value]="text"  
         (keydown.enter)="disableEditMode(editInput.value)"
         maxlength="20"
+    />
+    <input
+        type="text" 
+        size="auto"
+        #editInput
+        class="wrapper-label-input"
+        *ngIf="editMode  && labelType == 'DATE'" 
+        [value]="text"  
+        (keydown.enter)="disableEditMode(editInput.value)"
+        maxlength="10"
     />
 </div>

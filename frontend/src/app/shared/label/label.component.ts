@@ -15,6 +15,7 @@ export class LabelComponent implements OnInit {
   @Input() size : labelSize = { width:70, height:20, fontSize:10};
   @Input() margin : string = '0px';
   @Input() labelColor : string = '#FF88AA';
+  @Input() disableEditModePernamently : boolean = false;
   @Output() textAfterEditMode = new EventEmitter<string>();
   editMode : boolean = false;
 
@@ -58,7 +59,9 @@ export class LabelComponent implements OnInit {
     this.text == dateSentAsDate;
   }
   activateEditMode() : void {
-    this.editMode = true;
+    if(!this.disableEditModePernamently){
+      this.editMode = true;
+    }
   }
   disableEditMode( textAfterEditMode : string ) : void {
     this.editMode = false;
