@@ -41,6 +41,7 @@
 .edit-input{
     background: transparent;
     border: none;
+    width: 94%;
     color: #777777;
     font-family: 'Arimo', sans-serif;
     font-size: 18px;
@@ -50,4 +51,12 @@
     &:focus{
         outline: 0;
     }
+}
+#editModeTitle{
+    display: flex;
+}
+.material-symbols-outlined:nth-child(2){
+    font-size: 15px;
+    color: #EE4444;
+    cursor: pointer;
 }

@@ -22,6 +22,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { LabelDialogWindowComponent } from './shared/label-dialog-window/label-dialog-window.component';
 import { ScrollDirective } from './core/directives/scroll/scroll.directive';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatChipsModule,
     MatDialogModule,
     MatBadgeModule,
+    MatTooltipModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

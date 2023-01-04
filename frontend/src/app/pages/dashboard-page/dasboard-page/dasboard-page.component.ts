@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { CdkDragMove } from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import { moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
@@ -6,6 +6,7 @@ import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/l
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 import { AuthStatusService } from 'src/app/core/services/auth-status/auth-status.service';
 import { Router } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-dasboard-page',
@@ -16,7 +17,7 @@ export class DasboardPageComponent implements OnInit {
 
   buckets : string[] = ['Nowe','Do werfikacji','Czekaj','Ukończone'];
   contextMenuState : boolean = false;
-  constructor(public dialog: MatDialog, private router : Router, private contextMenuService : ContextMenuService, private authStatusService : AuthStatusService) { }
+  constructor(public dialog: MatDialog, private scroll : ViewportScroller, private router : Router, private contextMenuService : ContextMenuService, private authStatusService : AuthStatusService) { }
 
   ngOnInit(): void {
     if(this.authStatusService.showStatus() == 'DENIED'){
@@ -54,5 +55,6 @@ export class DasboardPageComponent implements OnInit {
   }
   changeContextMenuState() : void {
     this.contextMenuService.updateContextMenuState(false);
+    this.scroll.scrollToPosition([window.innerWidth,0])
   }
 }

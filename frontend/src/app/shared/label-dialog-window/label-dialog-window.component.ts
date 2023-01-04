@@ -20,6 +20,7 @@ export class LabelDialogWindowComponent implements OnInit {
     { modeName : 'mainContent', isActive : false },
     { modeName : 'asideContent', isActive : false },
   ];
+  isDisableWindowClose : boolean = false;
   constructor(private passDataToDialogService : PassDataToDialogService) { }
 
   ngOnInit(): void {
@@ -44,7 +45,12 @@ export class LabelDialogWindowComponent implements OnInit {
       labelColor : '',
     });
   }
-  editLabel(labelText : string) : void {
-   
+  checkIfCanClose() : void {
+    if(this.editMode[0].isActive == false && this.editMode[1].isActive == false){
+     this.isDisableWindowClose = false;
+    }
+    else{
+     this.isDisableWindowClose = true;
+    }
   }
 }

@@ -1,6 +1,6 @@
 <article class="wrapper-card" [ngStyle]="{'border-color': bucketColor}">
     <ng-container *ngIf="isEditModeActive == false; else editModeTitle">
-        <h2 class="wrapper-card-title" (click)="activateEditMode()">{{title}}</h2>
+        <h2 class="wrapper-card-title" (dblclick)="activateEditMode()">{{title}}</h2>
     </ng-container>
     <ng-template #editModeTitle>
         <input 
@@ -10,13 +10,20 @@
             (keydown.enter)="disableEditMode(editInput.value)"
             maxlength="18"
         />
+        <span 
+            class="material-symbols-outlined" 
+            matTooltip="Teskt nie został zapisany"
+            [matTooltipPosition]="'right'"
+        >
+            error
+        </span>
     </ng-template>
     <div  cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="taskArray">
         <app-card 
             *ngFor="let item of taskArray" 
             [currentBucketColor]="bucketColor" 
             [text]="item" 
-            [tuskTermin]="'23/12/2022'"
+            [tuskTermin]="'23/12/2023'"
             (isButtonClicked)="isButtonClicked($event)"
         ></app-card>
         <div class="button-container">
