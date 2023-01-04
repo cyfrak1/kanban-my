@@ -7,12 +7,14 @@
     <p class="wrapper-label-text" *ngIf="editMode == false" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
     <input
         type="text" 
-        size="auto"
+        [size]="labelWidth > 0 ? labelWidth : 1"
         #editInput
         class="wrapper-label-input"
         *ngIf="editMode  && labelType == 'TEXT'" 
         [value]="text"  
         (keydown.enter)="disableEditMode(editInput.value)"
+        (keydown)="onInputChange(editInput.value)"
+        (mouseover)="onInputChange(editInput.value)"
         maxlength="20"
     />
     <input

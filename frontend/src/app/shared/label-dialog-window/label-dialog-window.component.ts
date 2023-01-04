@@ -46,11 +46,11 @@ export class LabelDialogWindowComponent implements OnInit {
     });
   }
   checkIfCanClose() : void {
-    if(this.editMode[0].isActive == false && this.editMode[1].isActive == false){
-     this.isDisableWindowClose = false;
+    if(this.editMode[0].isActive || this.editMode[1].isActive){
+      this.isDisableWindowClose = true;
     }
     else{
-     this.isDisableWindowClose = true;
+      this.isDisableWindowClose = true;
     }
   }
 }

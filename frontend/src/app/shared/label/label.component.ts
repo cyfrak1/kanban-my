@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { labelType, labelColor } from 'src/app/core/types/labelType';
 import { labelSize } from 'src/app/core/interfaces/labelInterface';
 import { DatePipe } from '@angular/common';
@@ -18,7 +18,7 @@ export class LabelComponent implements OnInit {
   @Input() disableEditModePernamently : boolean = false;
   @Output() textAfterEditMode = new EventEmitter<string>();
   editMode : boolean = false;
-
+  labelWidth : number = 1;
   private dateDiference : number = 0;
 
   styleObject() : Object {
@@ -38,7 +38,6 @@ export class LabelComponent implements OnInit {
     document.documentElement.style.setProperty("--labelWidth", `${this.size.width}px`);
     document.documentElement.style.setProperty("--labelFont", `${this.size.fontSize}px`);
   }
-
   changeLabelColorAccordingToDate() : void {
     let currentDate : any = new Date();
     let dateSentInArray : any = this.text.split('/')
@@ -68,5 +67,8 @@ export class LabelComponent implements OnInit {
     this.textAfterEditMode.emit(textAfterEditMode);
     this.text = textAfterEditMode;
     this.changeLabelColorAccordingToDate();
+  }
+  onInputChange( value : string ) : void {
+    this.labelWidth = value.length;
   }
 }

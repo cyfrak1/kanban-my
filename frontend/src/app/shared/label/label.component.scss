@@ -14,9 +14,9 @@
     }
     &-input{
        height: 100%;
-       width: auto;
        background: transparent;
        color: #fff;
+       display: flex;
        font-size: var(--labelFont);
        border: none;
        &:focus{
