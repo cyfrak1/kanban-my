@@ -1,30 +1,41 @@
-<div 
-    [ngClass]="editMode ? 'wrapper-label wrapper-label--editMode' : 'wrapper-label'" 
-    [ngStyle]="styleObject()"
-    (click)="activateEditMode()"
->
-
-    <p class="wrapper-label-text" *ngIf="editMode == false" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
-    <input
-        type="text" 
-        [size]="labelWidth > 0 ? labelWidth : 1"
-        #editInput
-        class="wrapper-label-input"
-        *ngIf="editMode  && labelType == 'TEXT'" 
-        [value]="text"  
-        (keydown.enter)="disableEditMode(editInput.value)"
-        (keydown)="onInputChange(editInput.value)"
-        (mouseover)="onInputChange(editInput.value)"
-        maxlength="20"
-    />
-    <input
-        type="text" 
-        size="auto"
-        #editInput
-        class="wrapper-label-input"
-        *ngIf="editMode  && labelType == 'DATE'" 
-        [value]="text"  
-        (keydown.enter)="disableEditMode(editInput.value)"
-        maxlength="10"
-    />
+<div *ngIf="!isLabelDelete">
+    <div 
+        #labelDiv
+        [ngClass]="editMode ? 'wrapper-label wrapper-label--editMode' : 'wrapper-label'" 
+        [ngStyle]="styleObject()"
+        (dblclick)="activateEditMode()"
+    >
+        <p class="wrapper-label-text" *ngIf="editMode == false" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
+        <span 
+            class="material-symbols-outlined" 
+            *ngIf="editMode && labelType == 'TEXT'"
+            (click)="deleteLabel()"
+        >
+            delete
+        </span>
+        <input
+            type="text" 
+            [size]="labelWidth > 0 ? labelWidth : 1"
+            #editInput
+            class="wrapper-label-input"
+            *ngIf="editMode  && labelType == 'TEXT'" 
+            [value]="text"  
+            (keydown.enter)="disableEditMode(editInput.value)"
+            (keydown)="onInputChange(editInput.value)"
+            (mouseover)="onInputChange(editInput.value)"
+            maxlength="13"
+        />
+        <input
+            type="text" 
+            [size]="labelWidth > 0 ? labelWidth : 1"
+            #editInput
+            class="wrapper-label-input"
+            *ngIf="editMode  && labelType == 'DATE'" 
+            [value]="text"  
+            (keydown.enter)="disableEditMode(editInput.value)"
+            (keydown)="onInputChange(editInput.value)"
+            (mouseover)="onInputChange(editInput.value)"
+            maxlength="10"
+        />
+    </div>
 </div>

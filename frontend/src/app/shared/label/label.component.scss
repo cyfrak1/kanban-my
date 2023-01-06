@@ -1,18 +1,20 @@
 .wrapper-label{
     height: 20px;
     background: #FFAA22;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 0 5px 0 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 7px;
+    display: flex;
     &-text{
         color: #fff;
         font-size: 10px;
         margin: 0;
+        order: 1;
     }
     &-input{
+       padding: 0 5px 0 5px;
        height: 100%;
        background: transparent;
        color: #fff;
@@ -26,4 +28,11 @@
     &--editMode{
         padding: 0;
     }
+}
+.material-symbols-outlined{
+    color: #fff;
+    font-size: 16px;
+    margin: 0 5px 0 5px;
+    cursor: pointer;
+    order: 2;
 }
