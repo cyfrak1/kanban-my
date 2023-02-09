@@ -21,7 +21,7 @@ export class LabelComponent implements OnInit {
   labelWidth : number = 1;
   isLabelDelete : boolean = false;
   private dateDiference : number = 0;
-  @ViewChild('labelDiv') label ?: ElementRef;
+  @ViewChild('labelDiv') label !: ElementRef;
   styleObject() : Object {
     return {
       background: this.labelColor,
@@ -38,6 +38,9 @@ export class LabelComponent implements OnInit {
     }
     document.documentElement.style.setProperty("--labelWidth", `${this.size.width}px`);
     document.documentElement.style.setProperty("--labelFont", `${this.size.fontSize}px`);
+  }
+  ngAfterViewInit() : void {
+    this.labelWidth = this.label.nativeElement.offsetWidth;
   }
   changeLabelColorAccordingToDate() : void {
     let currentDate : any = new Date();
@@ -68,14 +71,12 @@ export class LabelComponent implements OnInit {
     this.textAfterEditMode.emit(textAfterEditMode);
     this.text = textAfterEditMode;
     this.changeLabelColorAccordingToDate();
+    if(textAfterEditMode.length == 0){
+      this.deleteLabel();
+    }
   }
   onInputChange( value : string ) : void {
-    if(value.length == 0){
-      this.isLabelDelete = true;
-    }
-    else{
-      this.labelWidth = value.length;
-    }
+    this.labelWidth = value.length;
   }
   deleteLabel() : void {
     this.isLabelDelete = true;
