@@ -1,11 +1,10 @@
 <div *ngIf="!isLabelDelete">
     <div 
-        #labelDiv
         [ngClass]="editMode ? 'wrapper-label wrapper-label--editMode' : 'wrapper-label'" 
         [ngStyle]="styleObject()"
         (dblclick)="activateEditMode()"
     >
-        <p class="wrapper-label-text" *ngIf="editMode == false" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
+        <p #labelDiv class="wrapper-label-text"  *ngIf="editMode == false" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
         <span 
             class="material-symbols-outlined" 
             *ngIf="editMode && labelType == 'TEXT'"
