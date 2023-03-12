@@ -36,16 +36,13 @@ export class LabelComponent implements OnInit {
       this.changeLabelColorAccordingToDate();
     }
     this.labelWidth = this.text.length + 5;
-    document.documentElement.style.setProperty("--labelWidth", `${this.size.width}px`);
     document.documentElement.style.setProperty("--labelFont", `${this.size.fontSize}px`);
   }
-  // ngAfterViewInit() : void {
-  //   this.labelWidth = this.label.nativeElement.offsetWidth;
-  // }
+
   changeLabelColorAccordingToDate() : void {
     let currentDate : any = new Date();
-    let dateSentInArray : any = this.text.split('/')
-    let dateSentInUSFormat = `${dateSentInArray[1]}/${dateSentInArray[0]}/${dateSentInArray[2]}`;
+    let dateSentInArray : any = this.text.split('-')
+    let dateSentInUSFormat = `${dateSentInArray[1]}-${dateSentInArray[0]}-${dateSentInArray[2]}`;
     let dateSentAsDate : any = new Date(dateSentInUSFormat);
     const diffTime = dateSentAsDate - currentDate;
     this.dateDiference = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
@@ -65,7 +62,6 @@ export class LabelComponent implements OnInit {
     if(!this.disableEditModePernamently){
       this.editMode = true;
     }
-    console.log(this.labelWidth)
   }
   disableEditMode( textAfterEditMode : string ) : void {
     this.editMode = false;

@@ -37,6 +37,7 @@ export class CardComponent implements OnInit {
       positionX : event.clientX,
       positionY : event.clientY
     });
+    this.contextMenuService.updateContextMenuClickedOnElement('task')
     this.contextMenuService.updateContextMenuState(true);
     this.passDataToDialogService.getDataToPass(this.text,this.asideText,this.currentBucketColor,this.tuskTermin,this.labels);
   }

@@ -23,6 +23,8 @@ import { LabelDialogWindowComponent } from './shared/label-dialog-window/label-d
 import { ScrollDirective } from './core/directives/scroll/scroll.directive';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { EscapeDirective } from './core/directives/escape/escape.directive';
+import { ContextMenuComponent } from './shared/context-menu/context-menu.component';
 
 
 @NgModule({
@@ -35,6 +37,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     LabelComponent,
     LabelDialogWindowComponent,
     ScrollDirective,
+    EscapeDirective,
+    ContextMenuComponent,
   ],
   imports: [
     BrowserModule,

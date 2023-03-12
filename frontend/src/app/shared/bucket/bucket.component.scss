@@ -6,7 +6,7 @@
     background: #F6F8FC;
     border-top: 10px solid #22CCDD;
     border-radius: 10px;
-    padding: 10px 5px 0px 5px;
+    padding: 10px 10px 0px 10px;
     margin: 0 10px 0 10px;
     box-shadow: 8px 8px 24px -24px rgba(66, 68, 90, 1);
     &-title{
@@ -16,6 +16,11 @@
         font-weight: bold;
         text-transform: uppercase;
         margin: 0;
+    }
+    &-edit{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 .button-container{
@@ -41,7 +46,7 @@
 .edit-input{
     background: transparent;
     border: none;
-    width: 94%;
+    width: 90%;
     color: #777777;
     font-family: 'Arimo', sans-serif;
     font-size: 18px;
@@ -56,7 +61,7 @@
     display: flex;
 }
 .material-symbols-outlined:nth-child(2){
-    font-size: 15px;
+    font-size: 20px;
     color: #EE4444;
     cursor: pointer;
 }

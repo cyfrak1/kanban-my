@@ -1,0 +1,5 @@
+<div class="context" *ngIf="contextMenuState">
+    <ul class="context-list">
+        <li class="context-list-text" *ngFor="let element of list" (click)="element.functionToLoad()">{{element.menuElementName}}</li>
+    </ul>
+</div>

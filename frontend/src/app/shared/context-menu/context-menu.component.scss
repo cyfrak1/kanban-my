@@ -1,0 +1,37 @@
+.context{
+    height: 80px;
+    width: 200px;
+    position: absolute;
+    top: var(--contextMenuY);
+    left: var(--contextMenuX);
+    background: #303030;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    &-list{
+        width: 100%;
+        height: 100%;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px 10px;
+        &-text{
+            width: 100%;
+            height: 30px;
+            font-family: 'Arimo', sans-serif;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px 20px;
+            border-radius: 5px;
+            &:hover{
+                background: #1C1C1C;
+            }
+        }
+    }
+}

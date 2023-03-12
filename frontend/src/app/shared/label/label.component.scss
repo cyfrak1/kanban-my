@@ -1,15 +1,16 @@
 .wrapper-label{
     height: 20px;
     background: #FFAA22;
-    padding: 0 5px 0 5px;
+    padding: 0 8px 0 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 7px;
     display: flex;
+    white-space: nowrap;
     &-text{
         color: #fff;
-        font-size: 10px;
+        font-size: 12px;
         margin: 0;
         order: 1;
     }

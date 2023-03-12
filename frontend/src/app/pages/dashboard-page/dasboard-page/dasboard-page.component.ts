@@ -7,6 +7,7 @@ import { ContextMenuService } from 'src/app/core/services/context-menu/context-m
 import { AuthStatusService } from 'src/app/core/services/auth-status/auth-status.service';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { ContextMenuData } from 'src/app/core/interfaces/contextMenuInterface';
 
 @Component({
   selector: 'app-dasboard-page',
@@ -16,6 +17,10 @@ import { ViewportScroller } from '@angular/common';
 export class DasboardPageComponent implements OnInit {
 
   buckets : string[] = ['Nowe','Do werfikacji','Czekaj','Ukończone'];
+  contextMenuList : ContextMenuData[] = [
+    {menuElementName:'Archiwizuj',functionToLoad: () => this.createNewBucket()},
+    {menuElementName:'Edytuj', functionToLoad: () => this.activateDialogLabel()}
+  ]
   contextMenuState : boolean = false;
   constructor(public dialog: MatDialog, private scroll : ViewportScroller, private router : Router, private contextMenuService : ContextMenuService, private authStatusService : AuthStatusService) { }
 
@@ -27,12 +32,11 @@ export class DasboardPageComponent implements OnInit {
       this.contextMenuState = res;
     });
   }
-  activateDialogLabel( activate : boolean ) : void {
-    if(activate){
-      this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
-      if(this.contextMenuState){
-        this.changeContextMenuState();
-      }
+  activateDialogLabel() : void {
+    this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
+    if(this.contextMenuState){
+      this.contextMenuService.updateContextMenuClickedOnElement('task');
+      this.changeContextMenuState();
     }
   }
   dragMove( event : CdkDragMove ) : void {

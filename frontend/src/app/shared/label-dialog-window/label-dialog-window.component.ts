@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PassDataToDialogService } from 'src/app/core/services/pass-data-to-dialog/pass-data-to-dialog.service';
 import { PassDataToDialog, EditMode } from 'src/app/core/interfaces/dialogInterface';
+import { CloseDialogService } from 'src/app/core/services/close-dialog/close-dialog.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-label-dialog-window',
@@ -21,11 +23,19 @@ export class LabelDialogWindowComponent implements OnInit {
     { modeName : 'asideContent', isActive : false },
   ];
   isDisableWindowClose : boolean = false;
-  constructor(private passDataToDialogService : PassDataToDialogService) { }
+  constructor(
+    private passDataToDialogService : PassDataToDialogService, 
+    private closeDialogService : CloseDialogService,
+    private dialogRef : MatDialogRef<LabelDialogWindowComponent>
+  ) { }
 
   ngOnInit(): void {
     this.dialogData = this.passDataToDialogService.passDataToDialog();
     document.documentElement.style.setProperty('--borderColor',this.dialogData.currentBucketColor);
+    const isDialogCloseListener = this.closeDialogService.isDialogCloseListener().subscribe((res)=>{
+      this.dialogRef.close();
+      isDialogCloseListener.unsubscribe();
+    });
   }
   activeEditMode(editModeNumber : number) : void {
     this.editMode[editModeNumber].isActive = true;

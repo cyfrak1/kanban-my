@@ -1,7 +1,7 @@
 <div class="wrapper-labelWindow" [ngStyle]="{'border-color': dialogData.currentBucketColor}">
     <header class="wrapper-labelWindow-title">
         <ng-container *ngIf="editMode[0].isActive == false; else editModeTitle">
-            <h2 class="wrapper-labelWindow-title-text" (dblclick)="activeEditMode(0)">{{dialogData.mainContent}}</h2>
+            <h2 class="wrapper-labelWindow-title-text" (click)="activeEditMode(0)">{{dialogData.mainContent}}</h2>
         </ng-container>
         <ng-template #editModeTitle>
             <textarea 
@@ -24,13 +24,11 @@
                 [size]="{width:70,height:30,fontSize:18}" 
                 [margin]="'5px'"
             ></app-label>
-        <span class="material-symbols-outlined" (click)="addNewLabel()">
-            add_circle
-        </span>
+       <svg  (click)="addNewLabel()" width="22px" height="22px" fill="#DDDDDD" class="wrapper-card-container-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
     </header>
     <article class="wrapper-labelWindow-content">
         <ng-container *ngIf="editMode[1].isActive == false; else editModeAsideContent">
-            <p class="wrapper-labelWindow-content-text" (dblclick)="activeEditMode(1)">{{dialogData.asideContent}}</p>
+            <p class="wrapper-labelWindow-content-text" (click)="activeEditMode(1)">{{dialogData.asideContent}}</p>
         </ng-container>
         <ng-template #editModeAsideContent>
             <textarea 
@@ -40,7 +38,6 @@
                 autofocus 
                 #inputTitle
                 (keyup.enter)="deactivateEditMode(1, inputTitle.value)" 
-                
             ></textarea>
         </ng-template>
     </article>
@@ -51,12 +48,12 @@
             [size]="{width:100,height:40,fontSize:18}"
         ></app-label>
         <div class="button-container">
-            <button mat-button  [matDialogClose]="">
-                <span class="material-symbols-outlined" id="cancel">
+            <button mat-button mat-dialog-close>
+                <span class="material-symbols-outlined" id="cancel" cdkFocusInitial>
                     cancel
                 </span>
             </button>
-            <button mat-button cdkFocusInitial mat-dialog-close (click)="checkIfCanClose()">
+            <button mat-button mat-dialog-close (click)="checkIfCanClose()" cdkFocusInitial>
                 <span class="material-symbols-outlined" id="check">
                     check_circle
                 </span>

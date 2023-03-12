@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { GetTaskService } from 'src/app/core/services/get-task/get-task.service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 
 @Component({
   selector: 'app-bucket',
@@ -18,7 +19,11 @@ export class BucketComponent implements OnInit {
   taskArray : string[] = [];
   isEditModeActive : boolean = false;
 
-  constructor( private getTaskService : GetTaskService, public dialog: MatDialog ) { }
+  constructor( 
+    private getTaskService : GetTaskService, 
+    public dialog: MatDialog,
+    private contextMenuService : ContextMenuService
+  ) { }
 
   ngOnInit(): void {
     const isSerialNumberCorrect = this.checkSerialNumber();
@@ -63,6 +68,14 @@ export class BucketComponent implements OnInit {
     if(!this.dialog.openDialogs || !this.dialog.openDialogs.length){
       this.activateDialogLabel.emit(buttonState);
     }
+  }
+  activateContextMenu( event : MouseEvent ) : void {
+    this.contextMenuService.getContextMenuPosition({
+      positionX : event.clientX,
+      positionY : event.clientY
+    });
+    this.contextMenuService.updateContextMenuState(true);
+    this.contextMenuService.updateContextMenuClickedOnElement('bucket');
   }
   activateEditMode() : void {
     this.isEditModeActive = true;

@@ -4,7 +4,7 @@
     background: #fff;
     border-radius: 10px;
     box-shadow: -3px 2px 26px -20px rgba(66, 68, 90, 1);
-    margin: 7px 0 7px 0;
+    margin: 10px 0 10px 0;
     cursor: pointer;
     &-container-icon:nth-child(2){
         display: none;
@@ -18,9 +18,9 @@
         transition: .4s ease-in-out;
         color: #EE4444;
     }
-    &:hover &-container-icon:nth-child(3){
+    &:hover svg {
+        fill: #BBBBBB !important;
         transition: .4s ease-in-out;
-        color: #BBBBBB;
     }
     &-container{
         min-height: 10px;
@@ -30,11 +30,11 @@
         &-icon{
             color: #DDDDDD;
             cursor: pointer;
-            font-size: 17px;
+            font-size: 22px;
         }
     }
     &-text{
-        min-height: 80px;
+        min-height: 50px;
         width: 100%;
         color: #777777;
         font-family: 'Arimo', sans-serif;
@@ -75,3 +75,4 @@
     align-items: center;
     justify-content: flex-start;
 }
+  

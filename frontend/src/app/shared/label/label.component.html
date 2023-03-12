@@ -5,13 +5,13 @@
         (dblclick)="activateEditMode()"
     >
         <p #labelDiv class="wrapper-label-text"  *ngIf="editMode == false" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
-        <span 
+        <!-- <span 
             class="material-symbols-outlined" 
             *ngIf="editMode && labelType == 'TEXT'"
             (click)="deleteLabel()"
         >
             delete
-        </span>
+        </span> -->
         <input
             type="text" 
             [size]="labelWidth > 0 ? labelWidth : 1"

@@ -6,13 +6,8 @@
     </nav>
     <div class="card-container" *ngFor="let bucket of buckets; let serialNumber = index;">
         <!-- serialNumber + 1 due to the fact that index count from 0 but serial number from 1 -->
-        <app-bucket [title]="bucket" [serialNumber]="serialNumber + 1" (activateDialogLabel)="activateDialogLabel($event)"></app-bucket>
+        <app-bucket [title]="bucket" [serialNumber]="serialNumber + 1" (activateDialogLabel)="activateDialogLabel()"></app-bucket>
     </div>
     <div class="click-area" *ngIf="contextMenuState" (click)="changeContextMenuState()"></div>
-    <div class="context" *ngIf="contextMenuState">
-        <ul class="context-list">
-            <li class="context-list-text">Archiwizuj</li>
-            <li class="context-list-text" (click)="activateDialogLabel(true)">Edytuj</li>
-        </ul>
-    </div>
+    <app-context-menu [list]="contextMenuList"></app-context-menu>
 </div>
