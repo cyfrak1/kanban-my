@@ -5,36 +5,28 @@
         (dblclick)="activateEditMode()"
     >
         <p #labelDiv class="wrapper-label-text"  *ngIf="editMode == false" [ngStyle]="{'font-size': this.size.fontSize.toString() + 'px'}">{{text}}</p>
-        <!-- <span 
-            class="material-symbols-outlined" 
-            *ngIf="editMode && labelType == 'TEXT'"
-            (click)="deleteLabel()"
-        >
-            delete
-        </span> -->
-        <input
-            type="text" 
-            [size]="labelWidth > 0 ? labelWidth : 1"
+        <span 
+        class="material-symbols-outlined" 
+        *ngIf="editMode && labelType == 'TEXT'"
+        (click)="deleteLabel()">
+            close
+        </span>
+        <span
             #editInput
             class="wrapper-label-input"
             *ngIf="editMode  && labelType == 'TEXT'" 
-            [value]="text"  
-            (keydown.enter)="disableEditMode(editInput.value)"
-            (keydown)="onInputChange(editInput.value)"
-            (mouseover)="onInputChange(editInput.value)"
-            maxlength="13"
-        />
-        <input
-            type="text" 
-            [size]="labelWidth > 0 ? labelWidth : 1"
+            contenteditable
+            role="textbox" 
+            (keydown.enter)="disableEditMode(editInput)"
+        >{{text}}</span>
+        <span
             #editInput
             class="wrapper-label-input"
             *ngIf="editMode  && labelType == 'DATE'" 
-            [value]="text"  
-            (keydown.enter)="disableEditMode(editInput.value)"
-            (keydown)="onInputChange(editInput.value)"
-            (mouseover)="onInputChange(editInput.value)"
+            contenteditable
+            role="textbox" 
+            (keydown.enter)="disableEditMode(editInput)"
             maxlength="10"
-        />
+        >{{text}}</span>
     </div>
 </div>

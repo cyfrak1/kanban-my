@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ContextMenuPosition } from '../../interfaces/contextMenuInterface';
-import { ClickedOnElement } from '../../types/contextMenu';
+import { ContextMenuData } from '../../interfaces/contextMenuInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { ClickedOnElement } from '../../types/contextMenu';
 export class ContextMenuService {
 
   private position : ContextMenuPosition = { positionX : 0, positionY : 0 };
-  private clickedOn = new Subject<ClickedOnElement>();
+  private ContextMenuData = new Subject<ContextMenuData[]>();
   private state = new Subject<boolean>();
   constructor() { }
   getContextMenuPosition( position : ContextMenuPosition ) : void {
@@ -20,16 +20,16 @@ export class ContextMenuService {
   returnContextMenuPosition() : ContextMenuPosition {
     return this.position;
   }
-  updateContextMenuState( newState : boolean ) : void {
+  updateContextMenuState( newState : boolean, id : number ) : void {
     this.state.next(newState);
   }
   isContextMenuActiveListener() {
     return this.state.asObservable();
   }
-  updateContextMenuClickedOnElement( element : ClickedOnElement ) : void {
-    this.clickedOn.next(element);
+  updateContextMenuData( data : ContextMenuData[] ) : void {
+    this.ContextMenuData.next(data);
   }
-  ClickedOnElementListener() {
-    return this.clickedOn.asObservable();
+  ContextMenuDataListener() {
+    return this.ContextMenuData.asObservable();
   }
 }

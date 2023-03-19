@@ -18,7 +18,7 @@ export class DasboardPageComponent implements OnInit {
 
   buckets : string[] = ['Nowe','Do werfikacji','Czekaj','Ukończone'];
   contextMenuList : ContextMenuData[] = [
-    {menuElementName:'Archiwizuj',functionToLoad: () => this.createNewBucket()},
+    {menuElementName:'Archiwizuj',functionToLoad: () => ()=>{}},
     {menuElementName:'Edytuj', functionToLoad: () => this.activateDialogLabel()}
   ]
   contextMenuState : boolean = false;
@@ -35,7 +35,6 @@ export class DasboardPageComponent implements OnInit {
   activateDialogLabel() : void {
     this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
     if(this.contextMenuState){
-      this.contextMenuService.updateContextMenuClickedOnElement('task');
       this.changeContextMenuState();
     }
   }
@@ -58,7 +57,7 @@ export class DasboardPageComponent implements OnInit {
     this.buckets.push('Nazwij mnie');
   }
   changeContextMenuState() : void {
-    this.contextMenuService.updateContextMenuState(false);
+    this.contextMenuService.updateContextMenuState(false,0);
     this.scroll.scrollToPosition([window.innerWidth,0])
   }
 }

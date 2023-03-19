@@ -74,11 +74,15 @@ export class BucketComponent implements OnInit {
       positionX : event.clientX,
       positionY : event.clientY
     });
-    this.contextMenuService.updateContextMenuState(true);
-    this.contextMenuService.updateContextMenuClickedOnElement('bucket');
+    this.contextMenuService.updateContextMenuState(true,this.serialNumber);
+    this.contextMenuService.updateContextMenuData([
+      {menuElementName:'Archiwizuj',functionToLoad: () => ()=>{}},
+      {menuElementName:'Edycja', functionToLoad: ()=>{this.activateEditMode()}}
+    ]);
   }
   activateEditMode() : void {
     this.isEditModeActive = true;
+    this.contextMenuService.updateContextMenuState(false,0);
   }
   disableEditMode( value : string ) : void {
     this.title = value;

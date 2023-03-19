@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 import { ContextMenuData } from 'src/app/core/interfaces/contextMenuInterface';
 import { ClickedOnElement } from 'src/app/core/types/contextMenu';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-context-menu',
@@ -12,19 +13,18 @@ export class ContextMenuComponent implements OnInit {
 
   @Input() list : ContextMenuData[] = [];
   contextMenuState : boolean = false;
-  constructor(private contextMenuService : ContextMenuService) { }
+  constructor(private contextMenuService : ContextMenuService, private scroll : ViewportScroller) { }
 
   ngOnInit(): void {
     this.contextMenuService.isContextMenuActiveListener().subscribe((res : boolean)=>{
       this.contextMenuState = res;
     });
-    this.contextMenuService.ClickedOnElementListener().subscribe((res : ClickedOnElement)=>{
-      this.changeMenuAccordingToClickedOnElement(res)
+    this.contextMenuService.ContextMenuDataListener().subscribe(( res : ContextMenuData[] )=>{
+      this.list = res;
     })
   } 
-  changeMenuAccordingToClickedOnElement( element : ClickedOnElement ) : void {
-    if(element == "bucket"){
-      this.list = this.list.filter((listElement)=>{ return listElement.menuElementName != "Edytuj"})
-    }
+  changeContextMenuState() : void {
+    this.contextMenuService.updateContextMenuState(false,0);
+    this.scroll.scrollToPosition([window.innerWidth,0])
   }
 }

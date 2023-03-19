@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { PassDataToDialogService } from 'src/app/core/services/pass-data-to-dialog/pass-data-to-dialog.service';
 import { PassDataToDialog, EditMode } from 'src/app/core/interfaces/dialogInterface';
 import { CloseDialogService } from 'src/app/core/services/close-dialog/close-dialog.service';
@@ -23,6 +23,7 @@ export class LabelDialogWindowComponent implements OnInit {
     { modeName : 'asideContent', isActive : false },
   ];
   isDisableWindowClose : boolean = false;
+  @ViewChild('inputTitle') mainContentHtmlRef !: ElementRef<HTMLElement>;
   constructor(
     private passDataToDialogService : PassDataToDialogService, 
     private closeDialogService : CloseDialogService,
@@ -31,21 +32,25 @@ export class LabelDialogWindowComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialogData = this.passDataToDialogService.passDataToDialog();
-    document.documentElement.style.setProperty('--borderColor',this.dialogData.currentBucketColor);
+    document.documentElement.style.setProperty('--borderColor', this.dialogData.currentBucketColor);
     const isDialogCloseListener = this.closeDialogService.isDialogCloseListener().subscribe((res)=>{
       this.dialogRef.close();
       isDialogCloseListener.unsubscribe();
     });
   }
+  ngAfterViewInit() : void {
+    console.log(this.mainContentHtmlRef);
+  }
   activeEditMode(editModeNumber : number) : void {
     this.editMode[editModeNumber].isActive = true;
   }
-  deactivateEditMode(editModeNumber : number, newContent : string) : void {
+  deactivateEditMode(editModeNumber : number, newContent : any) : void {
+    console.log(this.editMode[editModeNumber].modeName)
     if(this.editMode[editModeNumber].modeName == "mainContent"){
-      this.dialogData.mainContent = newContent;
+      this.dialogData.mainContent = newContent.textContent;
     }
     else if(this.editMode[editModeNumber].modeName == "asideContent"){
-      this.dialogData.asideContent = newContent;
+      this.dialogData.asideContent = newContent.textContent;
     }
     this.editMode[editModeNumber].isActive = false;
   }
@@ -62,5 +67,8 @@ export class LabelDialogWindowComponent implements OnInit {
     else{
       this.isDisableWindowClose = true;
     }
+  }
+  changeDialogSize() : void {
+    document.documentElement.style.setProperty('--heightOfDialog', '10px');
   }
 }

@@ -3,3 +3,4 @@
         <li class="context-list-text" *ngFor="let element of list" (click)="element.functionToLoad()">{{element.menuElementName}}</li>
     </ul>
 </div>
+<div class="click-area" *ngIf="contextMenuState" (click)="changeContextMenuState()" (contextmenu)="changeContextMenuState()"></div>

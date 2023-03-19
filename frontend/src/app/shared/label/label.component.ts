@@ -18,7 +18,7 @@ export class LabelComponent implements OnInit {
   @Input() disableEditModePernamently : boolean = false;
   @Output() textAfterEditMode = new EventEmitter<string>();
   editMode : boolean = false;
-  labelWidth : number = 1;
+  labelWidth : string = '1ch';
   isLabelDelete : boolean = false;
   private dateDiference : number = 0;
   @ViewChild('labelDiv') label !: ElementRef;
@@ -35,7 +35,7 @@ export class LabelComponent implements OnInit {
     if(this.labelType == 'DATE'){
       this.changeLabelColorAccordingToDate();
     }
-    this.labelWidth = this.text.length + 5;
+    // this.labelWidth = this.text.length + 5;
     document.documentElement.style.setProperty("--labelFont", `${this.size.fontSize}px`);
   }
 
@@ -63,17 +63,14 @@ export class LabelComponent implements OnInit {
       this.editMode = true;
     }
   }
-  disableEditMode( textAfterEditMode : string ) : void {
+  disableEditMode( textAfterEditMode : any ) : void {
     this.editMode = false;
-    this.textAfterEditMode.emit(textAfterEditMode);
-    this.text = textAfterEditMode;
+    this.textAfterEditMode.emit(textAfterEditMode.textContent);
+    this.text = textAfterEditMode.textContent;
     this.changeLabelColorAccordingToDate();
-    if(textAfterEditMode.length == 0){
+    if(textAfterEditMode.textContent.length == 0){
       this.deleteLabel();
     }
-  }
-  onInputChange( value : string ) : void {
-    this.labelWidth = value.length;
   }
   deleteLabel() : void {
     this.isLabelDelete = true;
