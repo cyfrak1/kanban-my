@@ -47,13 +47,13 @@ export class LabelComponent implements OnInit {
     const diffTime = dateSentAsDate - currentDate;
     this.dateDiference = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
-    if(this.dateDiference == 1){
+    if(this.dateDiference == 0){
       this.labelColor = '#FFAA22';
     }
-    else if(this.dateDiference < 1){
+    else if(this.dateDiference < 0){
       this.labelColor = '#EE4444';
     }
-    else if(this.dateDiference > 1){
+    else if(this.dateDiference > 0){
       this.labelColor = '#22AA99';
     }
     this.text == dateSentAsDate;

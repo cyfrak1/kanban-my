@@ -1,9 +1,5 @@
 <div class="wrapper-labelWindow" [ngStyle]="{'border-color': dialogData.currentBucketColor}">
     <header class="wrapper-labelWindow-title">
-        <ng-container *ngIf="editMode[0].isActive == false; else editModeTitle">
-            <h2 class="wrapper-labelWindow-title-text" (click)="activeEditMode(0)">{{dialogData.mainContent}}</h2>
-        </ng-container>
-        <ng-template #editModeTitle>
             <span  
                 #inputTitle
                 class="edit-input" 
@@ -11,7 +7,6 @@
                 contenteditable
                 (keyup.enter)="deactivateEditMode(0, inputTitle)"
             >{{dialogData.mainContent}}</span>
-        </ng-template>
     </header>
     <header class="wrapper-labelWindow-labels">
          <app-label 
@@ -25,10 +20,6 @@
        <svg  (click)="addNewLabel()" width="22px" height="22px" fill="#DDDDDD" class="wrapper-card-container-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
     </header>
     <article class="wrapper-labelWindow-content" (click)="activeEditMode(1)">
-        <ng-container *ngIf="editMode[1].isActive == false; else editModeAsideContent">
-            <p class="wrapper-labelWindow-content-text">{{dialogData.asideContent}}</p>
-        </ng-container>
-        <ng-template #editModeAsideContent>
             <span 
                 class="edit-input-aside" 
                 type="text" 
@@ -36,14 +27,9 @@
                 #inputAsideContent
                 role="textbox" 
                 contenteditable
-                (keyup.enter)="deactivateEditMode(1, inputAsideContent)" 
             >
                 {{dialogData.asideContent}}
             </span>
-            <!-- <div class="edit-input-aside-alert">
-                <svg style="cursor:pointer;" width="25px" height="25px" fill="#EE4444" matTooltip="Teskt nie został zapisany" [matTooltipPosition]="'left'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. <path d="M72 64c0-17.7-14.3-32-32-32S8 46.3 8 64V320c0 17.7 14.3 32 32 32s32-14.3 32-32V64zM40 480a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
-            </div> -->
-        </ng-template>
     </article>
     <footer class="wrapper-labelWindow-footer">
         <app-label 

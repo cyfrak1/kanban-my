@@ -58,9 +58,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 100%;
-            &::before{
-                content: '';
-                display: block;
+            &-decoration{
                 height: 9px;
                 width: 9px;
                 background: #0099FF;
