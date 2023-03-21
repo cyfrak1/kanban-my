@@ -1,6 +1,6 @@
 <article class="wrapper-card" [ngStyle]="{'border-color': bucketColor}">
     <ng-container *ngIf="isEditModeActive == false; else editModeTitle">
-        <h2 class="wrapper-card-title" (dblclick)="activateEditMode()" (contextmenu)="activateContextMenu($event)">{{title}}</h2>
+        <h2 class="wrapper-card-title"  (dblclick)="activateEditMode()" (contextmenu)="activateContextMenu($event)">{{title}}</h2>
     </ng-container>
     <ng-template #editModeTitle>
         <div class="wrapper-card-edit">
@@ -9,6 +9,7 @@
             #editInput 
             value={{title}} 
             (keydown.enter)="disableEditMode(editInput.value)"
+            (keydown.escape)="disableEditMode(title)"
             maxlength="18"
         />
         <div class="icon-container" matTooltip="Teskt nie został zapisany" [matTooltipPosition]="'right'">
