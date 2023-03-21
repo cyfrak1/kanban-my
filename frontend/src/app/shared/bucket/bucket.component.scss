@@ -31,7 +31,18 @@
     justify-content: center;
     &-button{
         border: none;
-        background: transparent;
+        border-radius: 100%;
+        background: #dddddd;
+        height: 25px;
+        width: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &-icon{
+            height: 17px;
+            width: 17px;
+            // color: #fff;
+        }
     }
 }
 .material-symbols-outlined{

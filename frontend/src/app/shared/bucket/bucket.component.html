@@ -11,7 +11,7 @@
             (keydown.enter)="disableEditMode(editInput.value)"
             maxlength="18"
         />
-        <svg style="cursor:pointer;" width="20px" height="20px" fill="#EE4444" matTooltip="Teskt nie został zapisany" [matTooltipPosition]="'right'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M72 64c0-17.7-14.3-32-32-32S8 46.3 8 64V320c0 17.7 14.3 32 32 32s32-14.3 32-32V64zM40 480a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+        <svg style="cursor:pointer;" width="15px" height="15px" fill="#EE4444" matTooltip="Teskt nie został zapisany" [matTooltipPosition]="'right'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M72 64c0-17.7-14.3-32-32-32S8 46.3 8 64V320c0 17.7 14.3 32 32 32s32-14.3 32-32V64zM40 480a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
         </div>
     </ng-template>
     <div  cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="taskArray">
@@ -24,7 +24,8 @@
         ></app-card>
         <div class="button-container" (contextmenu)="activateContextMenu($event)">
         <button class="button-container-button">
-            <svg width="30px" height="30px" fill="#DDDDDD" class="wrapper-card-container-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+            <!-- <svg width="30px" height="30px" fill="#DDDDDD" class="wrapper-card-container-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg> -->
+            <img src="../../../assets/add.png"  class="button-container-button-icon" />
         </button>
     </div>
     </div>
