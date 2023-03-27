@@ -6,4 +6,9 @@ export interface labelSize {
 export interface labelData {
     labelText : string,
     labelColor : string
- }
+}
+export interface labelWidthChanged {
+    labelText : string,
+    oldLabelText : string,
+    width : number,
+}

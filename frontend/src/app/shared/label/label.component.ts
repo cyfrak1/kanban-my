@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { labelType, labelColor } from 'src/app/core/types/labelType';
+import { Component, ComponentRef, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { labelType } from 'src/app/core/types/labelType';
 import { labelSize } from 'src/app/core/interfaces/labelInterface';
 import { DatePipe } from '@angular/common';
 
@@ -17,8 +17,8 @@ export class LabelComponent implements OnInit {
   @Input() labelColor : string = '#FF88AA';
   @Input() disableEditModePernamently : boolean = false;
   @Output() textAfterEditMode = new EventEmitter<string>();
+  @Output() componentDeleted = new EventEmitter<string>();
   editMode : boolean = false;
-  labelWidth : string = '1ch';
   isLabelDelete : boolean = false;
   private dateDiference : number = 0;
   @ViewChild('labelDiv') label !: ElementRef;
@@ -35,10 +35,11 @@ export class LabelComponent implements OnInit {
     if(this.labelType == 'DATE'){
       this.changeLabelColorAccordingToDate();
     }
-    // this.labelWidth = this.text.length + 5;
     document.documentElement.style.setProperty("--labelFont", `${this.size.fontSize}px`);
   }
-
+  ngAfterViewInit() : void {
+   this.size.width = this.label.nativeElement.offsetWidth;  
+  }
   changeLabelColorAccordingToDate() : void {
     let currentDate : any = new Date();
     let dateSentInArray : any = this.text.split('-')
@@ -71,8 +72,10 @@ export class LabelComponent implements OnInit {
     if(textAfterEditMode.textContent.length == 0){
       this.deleteLabel();
     }
+    this.size.width = this.label.nativeElement.offsetWidth; 
   }
   deleteLabel() : void {
+    this.componentDeleted.emit(this.text);
     this.isLabelDelete = true;
   }
 }

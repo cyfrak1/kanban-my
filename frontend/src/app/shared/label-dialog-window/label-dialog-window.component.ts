@@ -1,8 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { PassDataToDialogService } from 'src/app/core/services/pass-data-to-dialog/pass-data-to-dialog.service';
 import { PassDataToDialog, EditMode } from 'src/app/core/interfaces/dialogInterface';
 import { CloseDialogService } from 'src/app/core/services/close-dialog/close-dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { LabelComponent } from '../label/label.component';
+import { labelWidthChanged } from 'src/app/core/interfaces/labelInterface';
 
 @Component({
   selector: 'app-label-dialog-window',
@@ -23,7 +25,9 @@ export class LabelDialogWindowComponent implements OnInit {
     { modeName : 'asideContent', isActive : false },
   ];
   isDisableWindowClose : boolean = false;
-  @ViewChild('inputTitle') mainContentHtmlRef !: ElementRef<HTMLElement>;
+  widthOfLabels : number = 0;
+  @ViewChildren(LabelComponent) labels !: QueryList<LabelComponent>;
+  labelsDataArray : LabelComponent[] = [];
   constructor(
     private passDataToDialogService : PassDataToDialogService, 
     private closeDialogService : CloseDialogService,
@@ -39,26 +43,34 @@ export class LabelDialogWindowComponent implements OnInit {
     });
   }
   ngAfterViewInit() : void {
-    console.log(this.mainContentHtmlRef);
+
+    this.labels.changes.subscribe((res)=>{
+      this.widthOfLabels = 0;
+      this.labelsDataArray = res;
+      this.getWidthOfLabels();
+      console.log('changed');
+    });
+
+    this.labelsDataArray = this.labels.toArray();
+    this.getWidthOfLabels();
+  }
+  getWidthOfLabels() : void {
+    this.labelsDataArray.forEach((element : LabelComponent) => {
+      if(element.labelType == "TEXT"){
+        this.widthOfLabels += element.size.width;
+      }
+    });
   }
   activeEditMode(editModeNumber : number) : void {
     this.editMode[editModeNumber].isActive = true;
   }
-  deactivateEditMode(editModeNumber : number, newContent : any) : void {
-    console.log(this.editMode[editModeNumber].modeName)
-    if(this.editMode[editModeNumber].modeName == "mainContent"){
-      this.dialogData.mainContent = newContent.textContent;
-    }
-    else if(this.editMode[editModeNumber].modeName == "asideContent"){
-      this.dialogData.asideContent = newContent.textContent;
-    }
-    this.editMode[editModeNumber].isActive = false;
-  }
   addNewLabel() : void {
-    this.dialogData.labels.push({
-      labelText : 'Nazwij mnie',
-      labelColor : '',
-    });
+    if(this.widthOfLabels + 124 <= 844){
+      this.dialogData.labels.push({
+        labelText : 'Nazwij mnie',
+        labelColor : '',
+      });
+    }
   }
   checkIfCanClose() : void {
     if(this.editMode[0].isActive || this.editMode[1].isActive){
@@ -70,5 +82,19 @@ export class LabelDialogWindowComponent implements OnInit {
   }
   changeDialogSize() : void {
     document.documentElement.style.setProperty('--heightOfDialog', '10px');
+  }
+  removeLabelFromArray( componentText : string ) : void {
+    this.dialogData.labels = this.dialogData.labels.filter((label) => {
+      return label.labelText != componentText
+    });
+    this.labelsDataArray.filter((label)=>{
+      if(label.text == componentText){
+        this.widthOfLabels -= label.size.width;
+      }
+    })
+  }
+  changeTextOfLabels( labelData : labelWidthChanged ) : void {
+    const dialogLabelsTMPArray : string[] = [];
+    
   }
 }
