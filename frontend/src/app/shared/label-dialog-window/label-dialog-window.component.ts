@@ -93,8 +93,4 @@ export class LabelDialogWindowComponent implements OnInit {
       }
     })
   }
-  changeTextOfLabels( labelData : labelWidthChanged ) : void {
-    const dialogLabelsTMPArray : string[] = [];
-    
-  }
 }
