@@ -1,4 +1,4 @@
-package com.example.backend.Bucket;
+package com.example.backend.Task;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,13 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Bucket {
+public class Task {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
-    private int bucketId;
-    private String bucketName;
-
-    public void setBucketName(String bucketName) {
-        this.bucketName = bucketName;
-    }
+    private
 }

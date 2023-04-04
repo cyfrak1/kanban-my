@@ -24,4 +24,12 @@ public class BucketServiceImpl implements BucketService {
     public void deleteBucket(Integer bucketId) {
         bucketRepo.deleteById(bucketId);
     }
+
+    @Override
+    public void updateBucket(Integer bucketId, String updatedBucketName) {
+        Bucket bucket = bucketRepo.findById(bucketId).get();
+        bucket.setBucketName(updatedBucketName);
+        bucketRepo.save(bucket);
+    }
 }
+

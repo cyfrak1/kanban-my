@@ -7,4 +7,5 @@ public interface BucketService {
     public List<Bucket> getAllBuckets();
 
     public void deleteBucket(Integer bucketId);
+    public void updateBucket(Integer bucketId, String updatedBucketName);
 }
