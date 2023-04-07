@@ -1,6 +1,7 @@
 package com.example.backend.Bucket;
 
 import com.example.backend.Task.Task;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -12,8 +13,9 @@ public class Bucket {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false)
     private String bucketName;
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "bucket")
     Set<Task> tasks;
     public void setBucketName(String bucketName) {

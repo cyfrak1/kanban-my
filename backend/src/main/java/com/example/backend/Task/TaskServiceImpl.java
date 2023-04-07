@@ -25,10 +25,6 @@ public class TaskServiceImpl implements TaskService{
         task.setBucket(bucket);
         taskRepo.save(task);
     }
-    @Override
-    public Task getTask(Integer taskId) {
-        return taskRepo.getReferenceById(taskId);
-    }
 
     @Override
     public List<Task> getAllTasks(Integer bucketId) {
@@ -39,7 +35,7 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public void deleteTask(Integer taskId) {
-
+        taskRepo.deleteById(taskId);
     }
 
     @Override

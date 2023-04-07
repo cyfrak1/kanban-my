@@ -22,6 +22,7 @@ public class TaskController {
     }
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody Task task) {
+        System.out.println(task);
         taskService.addTask(task);
         return ResponseEntity.ok("Task has been added successfully");
     }
@@ -29,6 +30,11 @@ public class TaskController {
     public ResponseEntity<String> update(@PathVariable Integer taskId, @RequestBody Task task){
         task.setTaskId(taskId);
         taskService.updateTask(task);
+        return ResponseEntity.ok("Task has been updated successfully");
+    }
+    @DeleteMapping("/delete/{taskId}")
+    public ResponseEntity<String> delete(@PathVariable Integer taskId){
+        this.taskService.deleteTask(taskId);
         return ResponseEntity.ok("Task has been updated successfully");
     }
 }

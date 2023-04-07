@@ -14,13 +14,15 @@ public class Task {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int taskId;
+    @Column(nullable = false)
     private String taskTitle;
     private String taskDescription;
+    @Column(nullable = false)
     private String taskDeadlineTime;
-
-    private Integer bucketID;
+    @Column(name = "bucket_id", insertable = false, updatable = false)
+    private Integer bucketId;
     @ManyToOne
-    @JoinColumn(name="bucket_id", nullable = false)
+    @JoinColumn(name="bucket_id", nullable = false, referencedColumnName="id")
     private Bucket bucket;
 
     public int getTaskId() {
@@ -56,11 +58,11 @@ public class Task {
     }
 
     public Integer getBucketID() {
-        return bucketID;
+        return bucketId;
     }
 
-    public void setBucketID(Integer bucketID) {
-        this.bucketID = bucketID;
+    public void setBucketID(Integer bucketId) {
+        this.bucketId = bucketId;
     }
 
     public Bucket getBucket() {
@@ -69,5 +71,13 @@ public class Task {
 
     public void setBucket(Bucket bucket) {
         this.bucket = bucket;
+    }
+
+    public Integer getBucketId() {
+        return bucketId;
+    }
+
+    public void setBucketId(Integer bucketId) {
+        this.bucketId = bucketId;
     }
 }
