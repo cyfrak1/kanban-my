@@ -7,10 +7,7 @@ import jakarta.persistence.*;
 public class Label {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int labelId;
+    private int id;
     private String labelText;
 
-    @ManyToOne( cascade = CascadeType.ALL)
-    @JoinColumn(name = "taskId", referencedColumnName = "taskId")
-    private Task task;
 }

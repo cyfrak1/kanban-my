@@ -11,13 +11,20 @@ import java.util.Set;
 public class Bucket {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int bucketId;
+    private int id;
     private String bucketName;
     @JsonIgnore
-    @OneToMany( mappedBy = "bucket")
-    private Set<Task> tasks = new HashSet<>();
-
+    @OneToMany(mappedBy = "bucket")
+    Set<Task> tasks;
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public String getBucketName() {
+        return bucketName;
     }
 }

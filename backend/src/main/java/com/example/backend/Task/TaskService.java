@@ -1,8 +1,12 @@
 package com.example.backend.Task;
 
+import java.util.List;
+import java.util.Set;
+
 public interface TaskService {
-    public Task getTask(Integer bucketId, Integer taskId);
-    public Task getAllTasks(Integer bucketId);
-    public void deleteTask(Integer bucketId, Integer taskId);
-    public void updateTask(Integer bucketId, Task task);
+    public void addTask(Task task);
+    public Task getTask(Integer taskId);
+    public List<Task> getAllTasks(Integer bucketId);
+    public void deleteTask(Integer taskId);
+    public void updateTask(Task task);
 }

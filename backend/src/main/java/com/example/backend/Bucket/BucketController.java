@@ -14,20 +14,20 @@ public class BucketController {
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody Bucket bucket){
         bucketService.saveBucket(bucket);
-        return ResponseEntity.ok("New bucket added");
+        return ResponseEntity.ok("Bucket has been added successfully");
     }
     @GetMapping("/getAllBuckets")
     public ResponseEntity<List<Bucket>> getAllBuckets() {
         return ResponseEntity.ok(bucketService.getAllBuckets());
     }
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> delete(@RequestParam("id") Integer bucketId){
+    @DeleteMapping("/delete/{bucketId}")
+    public ResponseEntity<String> delete(@PathVariable Integer bucketId){
         bucketService.deleteBucket(bucketId);
-        return ResponseEntity.ok("Bucket deleted");
+        return ResponseEntity.ok("Bucket has been deleted");
     }
-    @PutMapping("/update")
-    public ResponseEntity<String> update(@RequestParam("id") Integer bucketId, @RequestBody String bucketName){
+    @PutMapping("/update/{bucketId}")
+    public ResponseEntity<String> update(@PathVariable Integer bucketId, @RequestBody String bucketName){
         bucketService.updateBucket(bucketId,bucketName);
-        return ResponseEntity.ok("Bucket updated");
+        return ResponseEntity.ok("Bucket has been updated");
     }
 }
