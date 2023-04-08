@@ -32,9 +32,9 @@ export class DasboardPageComponent implements OnInit {
     this.getBucketsFromServer();
   }
   getBucketsFromServer() : void {
-    this.bucketsService.getAllBuckets().subscribe((data : bucketServerRes[])=>{
+    const connection = this.bucketsService.getAllBuckets().subscribe((data : bucketServerRes[])=>{
       this.buckets = data;
-      console.log(data)
+      connection.unsubscribe();
     })
   }
   activateDialogLabel() : void {
@@ -59,7 +59,10 @@ export class DasboardPageComponent implements OnInit {
     }
   }
   createNewBucket() : void {
-    // this.buckets.push('Nazwij mnie');
+    const connection = this.bucketsService.addNewBucket({"bucketName":"Nazwij mnie"}).subscribe((res)=>{
+      // this.getBucketsFromServer();
+      connection.unsubscribe();
+    })
   }
   changeContextMenuState() : void {
     this.contextMenuService.updateContextMenuState(false,0);
