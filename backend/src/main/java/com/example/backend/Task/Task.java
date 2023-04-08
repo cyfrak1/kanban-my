@@ -1,12 +1,10 @@
 package com.example.backend.Task;
 
 import com.example.backend.Bucket.Bucket;
-import com.example.backend.label.Label;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.backend.Label.Label;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,6 +22,9 @@ public class Task {
     @ManyToOne
     @JoinColumn(name="bucket_id", nullable = false, referencedColumnName="id")
     private Bucket bucket;
+    @JsonBackReference
+    @OneToMany(mappedBy = "task")
+    Set<Label> labels;
 
     public int getTaskId() {
         return taskId;
@@ -79,5 +80,9 @@ public class Task {
 
     public void setBucketId(Integer bucketId) {
         this.bucketId = bucketId;
+    }
+
+    public Set<Label> getLabels() {
+        return labels;
     }
 }

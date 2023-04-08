@@ -28,7 +28,7 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public List<Task> getAllTasks(Integer bucketId) {
-        List<Task> tasks = new ArrayList();
+        List<Task> tasks = new ArrayList<>();
         tasks.addAll(bucketRepo.findById(bucketId).get().getTasks());
         return tasks;
     }
