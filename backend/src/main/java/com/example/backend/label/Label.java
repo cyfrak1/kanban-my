@@ -1,6 +1,6 @@
-package com.example.backend.Label;
+package com.example.backend.label;
 
-import com.example.backend.Task.Task;
+import com.example.backend.task.Task;
 import jakarta.persistence.*;
 
 @Entity

@@ -1,4 +1,4 @@
-package com.example.backend.Label;
+package com.example.backend.label;
 
 import java.util.List;
 

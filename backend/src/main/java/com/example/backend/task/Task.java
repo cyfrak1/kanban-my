@@ -1,7 +1,7 @@
-package com.example.backend.Task;
+package com.example.backend.task;
 
-import com.example.backend.Bucket.Bucket;
-import com.example.backend.Label.Label;
+import com.example.backend.bucket.Bucket;
+import com.example.backend.label.Label;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 

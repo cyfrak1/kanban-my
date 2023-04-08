@@ -1,7 +1,6 @@
-package com.example.backend.Task;
+package com.example.backend.task;
 
 import java.util.List;
-import java.util.Set;
 
 public interface TaskService {
     public void addTask(Task task);

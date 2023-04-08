@@ -1,13 +1,11 @@
-package com.example.backend.Task;
+package com.example.backend.task;
 
-import com.example.backend.Bucket.Bucket;
-import com.example.backend.Bucket.BucketRepo;
+import com.example.backend.bucket.BucketRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/task")

@@ -1,4 +1,4 @@
-package com.example.backend.Bucket;
+package com.example.backend.bucket;
 
 import java.util.List;
 

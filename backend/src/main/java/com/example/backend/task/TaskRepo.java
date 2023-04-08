@@ -1,8 +1,8 @@
-package com.example.backend.Bucket;
+package com.example.backend.task;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BucketRepo extends JpaRepository<Bucket,Integer> {
+public interface TaskRepo extends JpaRepository<Task,Integer> {
 }

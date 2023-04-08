@@ -1,14 +1,12 @@
-package com.example.backend.Task;
+package com.example.backend.task;
 
-import com.example.backend.Bucket.Bucket;
-import com.example.backend.Bucket.BucketRepo;
+import com.example.backend.bucket.Bucket;
+import com.example.backend.bucket.BucketRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class TaskServiceImpl implements TaskService{

@@ -1,11 +1,9 @@
-package com.example.backend.Bucket;
+package com.example.backend.bucket;
 
-import com.example.backend.Task.Task;
+import com.example.backend.task.Task;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
