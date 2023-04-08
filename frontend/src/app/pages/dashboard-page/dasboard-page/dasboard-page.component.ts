@@ -4,10 +4,11 @@ import {MatDialog} from '@angular/material/dialog';
 import { moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/label-dialog-window.component';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
-import { AuthStatusService } from 'src/app/core/services/auth-status/auth-status.service';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { ContextMenuData } from 'src/app/core/interfaces/contextMenuInterface';
+import { BucketsService } from 'src/app/core/services/buckets/buckets.service';
+import { bucketServerRes } from 'src/app/core/interfaces/bucketInterface';
 
 @Component({
   selector: 'app-dasboard-page',
@@ -16,21 +17,25 @@ import { ContextMenuData } from 'src/app/core/interfaces/contextMenuInterface';
 })
 export class DasboardPageComponent implements OnInit {
 
-  buckets : string[] = ['Nowe','Do werfikacji','Czekaj','Ukończone'];
+  buckets : bucketServerRes[] = [];
   contextMenuList : ContextMenuData[] = [
     {menuElementName:'Archiwizuj',functionToLoad: () => ()=>{}},
     {menuElementName:'Edytuj', functionToLoad: () => this.activateDialogLabel()}
   ]
   contextMenuState : boolean = false;
-  constructor(public dialog: MatDialog, private scroll : ViewportScroller, private router : Router, private contextMenuService : ContextMenuService, private authStatusService : AuthStatusService) { }
+  constructor(public dialog: MatDialog, private scroll : ViewportScroller, private router : Router, private contextMenuService : ContextMenuService, private bucketsService : BucketsService) { }
 
   ngOnInit(): void {
-    if(this.authStatusService.showStatus() == 'DENIED'){
-      // this.router.navigate(['/login']);
-    }
     this.contextMenuService.isContextMenuActiveListener().subscribe((res : boolean)=>{
       this.contextMenuState = res;
     });
+    this.getBucketsFromServer();
+  }
+  getBucketsFromServer() : void {
+    this.bucketsService.getAllBuckets().subscribe((data : bucketServerRes[])=>{
+      this.buckets = data;
+      console.log(data)
+    })
   }
   activateDialogLabel() : void {
     this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
@@ -54,7 +59,7 @@ export class DasboardPageComponent implements OnInit {
     }
   }
   createNewBucket() : void {
-    this.buckets.push('Nazwij mnie');
+    // this.buckets.push('Nazwij mnie');
   }
   changeContextMenuState() : void {
     this.contextMenuService.updateContextMenuState(false,0);

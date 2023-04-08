@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import { LoginService } from 'src/app/core/services/loginService/login.service';
-import { loginResInterface } from 'src/app/core/interfaces/loginResInterface';
 import { Router } from '@angular/router';
-import { AuthStatusService } from 'src/app/core/services/auth-status/auth-status.service';
 
 @Component({
   selector: 'app-login-page',
@@ -17,7 +14,7 @@ export class LoginPageComponent implements OnInit {
   hide : boolean = true;
   loginError : boolean = false;
 
-  constructor(private loginService : LoginService, private router : Router, private authStatusService : AuthStatusService) { }
+  constructor( private router : Router) { }
 
   ngOnInit(): void {
   }
@@ -29,22 +26,21 @@ export class LoginPageComponent implements OnInit {
     }
     return currentControl.hasError('email') ? 'Niepoprawny email' : '';
   }
-  checkData() : void {
-    if(this.email.valid && this.password.valid){
-      this.loginService.login(this.email.value,this.password.value);
-      this.loginService.loginResListener().subscribe((data : loginResInterface )=> {
-        if(data.status == "OK"){
-          this.router.navigate(['/dashboard']);
-          this.authStatusService.setStatus(data.status);
-        }
-        else{
-          this.loginError = true;
-        }
-      })
-    }
-    else{
-      this.email.markAsTouched();
-      this.password.markAsTouched();
-    }
-  }
+  // checkData() : void {
+  //   if(this.email.valid && this.password.valid){
+  //     this.loginService.login(this.email.value,this.password.value);
+  //     this.loginService.loginResListener().subscribe((data : loginResInterface )=> {
+  //       if(data.status == "OK"){
+  //         this.router.navigate(['/dashboard']);
+  //       }
+  //       else{
+  //         this.loginError = true;
+  //       }
+  //     })
+  //   }
+  //   else{
+  //     this.email.markAsTouched();
+  //     this.password.markAsTouched();
+  //   }
+  // }
 }
