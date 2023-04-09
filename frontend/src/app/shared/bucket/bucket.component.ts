@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ComponentRef } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { GetTaskService } from 'src/app/core/services/get-task/get-task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
+import { bucketServerRes } from 'src/app/core/interfaces/bucketInterface';
+import { BucketsService } from 'src/app/core/services/buckets/buckets.service';
 
 @Component({
   selector: 'app-bucket',
@@ -10,7 +12,10 @@ import { ContextMenuService } from 'src/app/core/services/context-menu/context-m
   styleUrls: ['./bucket.component.scss']
 })
 export class BucketComponent implements OnInit {
-  @Input() title : string = 'Podaj Tytuł';
+  @Input() bucketData : bucketServerRes = {
+    id:0,
+    bucketName:""
+  }
   @Input() serialNumber : number = 0;
   @Output() activateDialogLabel = new EventEmitter<boolean>();
 
@@ -18,11 +23,13 @@ export class BucketComponent implements OnInit {
   bucketColor : string = '';
   taskArray : string[] = [];
   isEditModeActive : boolean = false;
+  isBucketActive : boolean = true;
 
   constructor( 
     private getTaskService : GetTaskService, 
     public dialog: MatDialog,
-    private contextMenuService : ContextMenuService
+    private contextMenuService : ContextMenuService,
+    private bucketsService : BucketsService
   ) { }
 
   ngOnInit(): void {
@@ -30,7 +37,7 @@ export class BucketComponent implements OnInit {
     if(isSerialNumberCorrect){
       this.setBorderColor();
     }
-    this.taskArray = this.getTaskService.getTasksForBucket(this.title);
+    this.taskArray = this.getTaskService.getTasksForBucket(this.bucketData.bucketName);
   }
   checkSerialNumber() : boolean {
     if(this.serialNumber == 0){
@@ -76,7 +83,7 @@ export class BucketComponent implements OnInit {
     });
     this.contextMenuService.updateContextMenuState(true,this.serialNumber);
     this.contextMenuService.updateContextMenuData([
-      {menuElementName:'Archiwizuj',functionToLoad: () => ()=>{}},
+      {menuElementName:'Archiwizuj',functionToLoad: ()=>{this.deleteBucket()}},
       {menuElementName:'Edycja', functionToLoad: ()=>{this.activateEditMode()}}
     ]);
   }
@@ -85,7 +92,12 @@ export class BucketComponent implements OnInit {
     this.contextMenuService.updateContextMenuState(false,0);
   }
   disableEditMode( value : string ) : void {
-    this.title = value;
+    this.bucketData.bucketName = value;
+    this.bucketsService.updateBucket(this.bucketData);
     this.isEditModeActive = false;
+  }
+  deleteBucket() : void {
+    this.bucketsService.deleteBucket(this.bucketData.id);
+    this.isBucketActive = false;
   }
 }

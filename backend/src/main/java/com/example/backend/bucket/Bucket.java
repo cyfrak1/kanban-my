@@ -20,6 +20,10 @@ public class Bucket {
         this.bucketName = bucketName;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public Set<Task> getTasks() {
         return tasks;
     }

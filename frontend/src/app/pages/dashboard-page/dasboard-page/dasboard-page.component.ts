@@ -60,7 +60,7 @@ export class DasboardPageComponent implements OnInit {
   }
   createNewBucket() : void {
     const connection = this.bucketsService.addNewBucket({"bucketName":"Nazwij mnie"}).subscribe((res)=>{
-      // this.getBucketsFromServer();
+      this.getBucketsFromServer();
       connection.unsubscribe();
     })
   }

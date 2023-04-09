@@ -1,15 +1,15 @@
-<article class="wrapper-card" [ngStyle]="{'border-color': bucketColor}">
+<article class="wrapper-card" [ngStyle]="{'border-color': bucketColor}" *ngIf="isBucketActive">
     <ng-container *ngIf="isEditModeActive == false; else editModeTitle">
-        <h2 class="wrapper-card-title"  (dblclick)="activateEditMode()" (contextmenu)="activateContextMenu($event)">{{title}}</h2>
+        <h2 class="wrapper-card-title"  (dblclick)="activateEditMode()" (contextmenu)="activateContextMenu($event)">{{bucketData.bucketName}}</h2>
     </ng-container>
     <ng-template #editModeTitle>
         <div class="wrapper-card-edit">
             <input 
             class="edit-input" 
             #editInput 
-            value={{title}} 
+            value={{bucketData.bucketName}} 
             (keydown.enter)="disableEditMode(editInput.value)"
-            (keydown.escape)="disableEditMode(title)"
+            (keydown.escape)="disableEditMode(bucketData.bucketName)"
             maxlength="18"
         />
         <div class="icon-container" matTooltip="Teskt nie został zapisany" [matTooltipPosition]="'right'">
@@ -27,7 +27,6 @@
         ></app-card>
         <div class="button-container" (contextmenu)="activateContextMenu($event)">
         <button class="button-container-button">
-            <!-- <svg width="30px" height="30px" fill="#DDDDDD" class="wrapper-card-container-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg> -->
             <img src="../../../assets/add.png"  class="button-container-button-icon" />
         </button>
     </div>

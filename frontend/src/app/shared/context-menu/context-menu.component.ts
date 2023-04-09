@@ -27,4 +27,8 @@ export class ContextMenuComponent implements OnInit {
     this.contextMenuService.updateContextMenuState(false,0);
     this.scroll.scrollToPosition([window.innerWidth,0])
   }
+  onClick(functionToLoad : any) : void {
+    functionToLoad();
+    this.contextMenuState = false;
+  }
 }
