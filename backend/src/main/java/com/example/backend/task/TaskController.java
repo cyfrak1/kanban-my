@@ -15,6 +15,10 @@ public class TaskController {
     private TaskService taskService;
     @Autowired
     private BucketRepo bucketRepo;
+    @GetMapping("/getTask/{taskId}")
+    private  ResponseEntity<Task> getTask(@PathVariable int taskId) {
+        return ResponseEntity.ok(taskService.getTask(taskId));
+    }
     @GetMapping("/getAllTasks/{bucketId}")
     private ResponseEntity<List<Task>> getAllTasks(@PathVariable int bucketId) {
         return ResponseEntity.ok(taskService.getAllTasks(bucketId));

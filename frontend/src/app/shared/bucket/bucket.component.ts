@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, ComponentRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { GetTaskService } from 'src/app/core/services/get-task/get-task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 import { bucketServerRes } from 'src/app/core/interfaces/bucketInterface';
 import { BucketsService } from 'src/app/core/services/buckets/buckets.service';
+import { taskServerRes } from 'src/app/core/interfaces/taskInterface';
+import { TasksService } from 'src/app/core/services/tasks/tasks.service';
 
 @Component({
   selector: 'app-bucket',
@@ -21,7 +23,7 @@ export class BucketComponent implements OnInit {
 
   bucketsColors : string[] = ['#22CCDD','#BB66CC','#FFCC66','#CFFDE1','#DEBACE','#E9DAC1'];
   bucketColor : string = '';
-  taskArray : string[] = [];
+  taskArray : taskServerRes[] = [];
   isEditModeActive : boolean = false;
   isBucketActive : boolean = true;
 
@@ -29,7 +31,8 @@ export class BucketComponent implements OnInit {
     private getTaskService : GetTaskService, 
     public dialog: MatDialog,
     private contextMenuService : ContextMenuService,
-    private bucketsService : BucketsService
+    private bucketsService : BucketsService,
+    private tasksService : TasksService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +40,13 @@ export class BucketComponent implements OnInit {
     if(isSerialNumberCorrect){
       this.setBorderColor();
     }
-    this.taskArray = this.getTaskService.getTasksForBucket(this.bucketData.bucketName);
+    this.getAllTasks();
+  }
+  getAllTasks() : void {
+    const subscription = this.tasksService.getAllTasks(this.bucketData.id).subscribe((res : taskServerRes[])=>{
+      this.taskArray = res;
+      subscription.unsubscribe();
+    })
   }
   checkSerialNumber() : boolean {
     if(this.serialNumber == 0){
@@ -58,7 +67,7 @@ export class BucketComponent implements OnInit {
       a++;
     }
   }
-  drop(event: CdkDragDrop<string[]>) : void {
+  drop(event: CdkDragDrop<taskServerRes[]>) : void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -70,7 +79,14 @@ export class BucketComponent implements OnInit {
       );
     }
   }
-
+  elementDrag(event : any,taskId : number) : void {
+    console.log(event);
+    const subscription = this.tasksService.getTask(taskId).subscribe((task : taskServerRes)=>{
+      task.bucketId = this.bucketData.id;
+      this.tasksService.updateTask(task);
+      subscription.unsubscribe();
+    });
+  }
   isButtonClicked( buttonState : boolean ) : void {
     if(!this.dialog.openDialogs || !this.dialog.openDialogs.length){
       this.activateDialogLabel.emit(buttonState);

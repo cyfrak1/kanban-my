@@ -58,18 +58,6 @@ public class Task {
         this.taskDeadlineTime = taskDeadlineTime;
     }
 
-    public Integer getBucketID() {
-        return bucketId;
-    }
-
-    public void setBucketID(Integer bucketId) {
-        this.bucketId = bucketId;
-    }
-
-    public Bucket getBucket() {
-        return bucket;
-    }
-
     public void setBucket(Bucket bucket) {
         this.bucket = bucket;
     }

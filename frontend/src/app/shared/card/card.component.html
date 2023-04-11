@@ -1,4 +1,4 @@
-<div class="wrapper-card" cdkDrag (click)="cardClicked()" (contextmenu)="getMousePosition($event)">
+<div (cdkDragDropped)="onDrag($event)" class="wrapper-card" cdkDrag (click)="cardClicked()" (contextmenu)="getMousePosition($event)">
     <header class="wrapper-card-container">
         <div class="labels">
             <app-label 
@@ -23,11 +23,11 @@
         </div>
     </header>
     <article class="wrapper-card-text">
-        <p>{{text}}</p>
+        <p>{{taskData.taskTitle}}</p>
     </article>
     <footer class="wrapper-card-date">
         <app-label 
-            [text]="tuskTermin" 
+            [text]="taskData.taskDeadlineTime" 
             [labelType]="'DATE'" 
             [disableEditModePernamently]="true"
             [size]="{width:70,height:22,fontSize:13}" 

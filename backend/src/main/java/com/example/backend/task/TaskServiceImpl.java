@@ -19,11 +19,15 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public void addTask(Task task) {
-        Bucket bucket = bucketRepo.findById(task.getBucketID()).get();
+        Bucket bucket = bucketRepo.findById(task.getBucketId()).get();
         task.setBucket(bucket);
         taskRepo.save(task);
     }
-
+    @Override
+    public Task getTask(Integer taskId) {
+        Task task = taskRepo.findById(taskId).get();
+        return task;
+    }
     @Override
     public List<Task> getAllTasks(Integer bucketId) {
         List<Task> tasks = new ArrayList<>();
@@ -38,10 +42,13 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public void updateTask(Task task) {
+        System.out.println(task.getBucketId());
         Task taskToUpdate = taskRepo.findById(task.getTaskId()).get();
+        Bucket bucket = bucketRepo.findById(task.getBucketId()).get();
         taskToUpdate.setTaskTitle(task.getTaskTitle());
         taskToUpdate.setTaskDescription(task.getTaskDescription());
         taskToUpdate.setTaskDeadlineTime(task.getTaskDeadlineTime());
+        taskToUpdate.setBucket(bucket);
         taskRepo.save(taskToUpdate);
     }
 }

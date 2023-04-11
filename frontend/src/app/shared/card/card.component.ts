@@ -1,10 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChildren } from '@angular/core';
+import { QueryList } from '@angular/core';
 import { PassDataToDialogService } from 'src/app/core/services/pass-data-to-dialog/pass-data-to-dialog.service';
 import { labelData } from 'src/app/core/interfaces/labelInterface';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/label-dialog-window.component';
 import { MatDialog } from '@angular/material/dialog';
+import { taskServerRes } from 'src/app/core/interfaces/taskInterface';
+import { TasksService } from 'src/app/core/services/tasks/tasks.service';
+import { BucketComponent } from '../bucket/bucket.component';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -12,27 +15,51 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class CardComponent implements OnInit {
 
-  @Input() text : string = 'Zapomniałeś dodać tekstu tego zadania!!!';
-  @Input() asideText : string = '';
+  @Input() taskData : taskServerRes = {
+    taskId: 0,
+    taskTitle : 'Zapomniałeś dodać tekstu tego zadania!!!',
+    taskDescription : '',
+    taskDeadlineTime : '',
+    bucketId : 0,
+  }
   @Input() currentBucketColor : string = '';
-  @Input() tuskTermin : string = '';
   @Output() isButtonClicked = new EventEmitter<boolean>();
-
+  @ViewChildren(BucketComponent) buckets !: QueryList<BucketComponent>;
   labels : labelData[] = [
     {labelText:'Magda', labelColor:'#978AFF'},
     {labelText:'Zrób', labelColor:'#1199EE'}
   ];
-  constructor(public dialog: MatDialog,private passDataToDialogService : PassDataToDialogService, private contextMenuService : ContextMenuService) { }
+  constructor(
+    public dialog: MatDialog,
+    private passDataToDialogService : PassDataToDialogService, 
+    private contextMenuService : ContextMenuService,
+    private tasksService : TasksService
+  ) { }
 
   ngOnInit(): void {
 
   }
-  cardClicked() : void {
-    this.passDataToDialogService.getDataToPass(this.text,this.asideText,this.currentBucketColor,this.tuskTermin,this.labels);
-    this.isButtonClicked.emit(true);
+  onDrag(event : any){
+    const currentBucketId = event.container._changeDetectorRef._lView[22][3][8].bucketData.id;
+    console.log(currentBucketId)
+    const subscription = this.tasksService.getTask(this.taskData.taskId).subscribe((task : taskServerRes)=>{
+      task.bucketId = currentBucketId;
+      
+      this.tasksService.updateTask(task).subscribe((res)=>{
+        console.log(res)
+      });
+      subscription.unsubscribe();
+    });
   }
-  drop(event: CdkDragDrop<any>) {
-    // moveItemInArray(this.vegetables, event.previousIndex, event.currentIndex);
+  cardClicked() : void {
+    this.passDataToDialogService.getDataToPass(
+      this.taskData.taskTitle,
+      this.taskData.taskDescription,
+      this.currentBucketColor,
+      this.taskData.taskDeadlineTime,
+      this.labels
+    );
+    this.isButtonClicked.emit(true);
   }
   getMousePosition( event : MouseEvent ) : void {
     this.contextMenuService.getContextMenuPosition({
@@ -44,7 +71,13 @@ export class CardComponent implements OnInit {
       {menuElementName:'Edytuj', functionToLoad: ()=>{this.openDialog()}}
     ])
     this.contextMenuService.updateContextMenuState(true,0);
-    this.passDataToDialogService.getDataToPass(this.text,this.asideText,this.currentBucketColor,this.tuskTermin,this.labels);
+    this.passDataToDialogService.getDataToPass(
+      this.taskData.taskTitle,
+      this.taskData.taskDescription,
+      this.currentBucketColor,
+      this.taskData.taskDeadlineTime,
+      this.labels
+    );
   }
   openDialog() : void {
     this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});

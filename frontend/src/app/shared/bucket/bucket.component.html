@@ -21,9 +21,9 @@
         <app-card 
             *ngFor="let item of taskArray" 
             [currentBucketColor]="bucketColor" 
-            [text]="item" 
-            [tuskTermin]="'23-12-2023'"
+            [taskData]="item"
             (isButtonClicked)="isButtonClicked($event)"
+            (cdkDragDropped)="elementDrag($event,item.taskId)"
         ></app-card>
         <div class="button-container" (contextmenu)="activateContextMenu($event)">
         <button class="button-container-button">
