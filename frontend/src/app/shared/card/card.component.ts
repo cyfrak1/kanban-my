@@ -41,12 +41,10 @@ export class CardComponent implements OnInit {
   }
   onDrag(event : any){
     const currentBucketId = event.container._changeDetectorRef._lView[22][3][8].bucketData.id;
-    console.log(currentBucketId)
     const subscription = this.tasksService.getTask(this.taskData.taskId).subscribe((task : taskServerRes)=>{
       task.bucketId = currentBucketId;
-      
-      this.tasksService.updateTask(task).subscribe((res)=>{
-        console.log(res)
+      const subscription2 = this.tasksService.updateTask(task).subscribe((res)=>{
+        subscription2.unsubscribe();
       });
       subscription.unsubscribe();
     });
