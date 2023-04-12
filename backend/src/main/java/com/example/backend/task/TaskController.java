@@ -38,6 +38,11 @@ public class TaskController {
     @DeleteMapping("/delete/{taskId}")
     public ResponseEntity<String> delete(@PathVariable Integer taskId){
         this.taskService.deleteTask(taskId);
-        return ResponseEntity.ok("Task has been updated successfully");
+        return ResponseEntity.ok("Task has been deleted successfully");
+    }
+    @PutMapping("/updateAllTasks/{bucketId}")
+    public ResponseEntity<String> updateAllTasks(@PathVariable Integer bucketId, @RequestBody List<Task> tasks){
+        this.taskService.updateAllTasks(bucketId,tasks);
+        return ResponseEntity.ok("Tasks have been updated successfully");
     }
 }

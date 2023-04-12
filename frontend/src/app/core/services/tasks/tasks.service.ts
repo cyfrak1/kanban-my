@@ -23,4 +23,7 @@ export class TasksService {
   updateTask(task : taskServerRes) {
     return this.http.put(`${this.api}/update/${task.taskId}`,task,{headers: this.headers, responseType:"text"})
   }
+  updateAllTasks(bucketId : number, tasks : taskServerRes[]) {
+    return this.http.put(`${this.api}/updateAllTasks/${bucketId}`,tasks,{headers: this.headers, responseType:"text"})
+  }
 }

@@ -42,13 +42,23 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public void updateTask(Task task) {
-        System.out.println(task.getBucketId());
         Task taskToUpdate = taskRepo.findById(task.getTaskId()).get();
         Bucket bucket = bucketRepo.findById(task.getBucketId()).get();
         taskToUpdate.setTaskTitle(task.getTaskTitle());
         taskToUpdate.setTaskDescription(task.getTaskDescription());
         taskToUpdate.setTaskDeadlineTime(task.getTaskDeadlineTime());
         taskToUpdate.setBucket(bucket);
+        taskToUpdate.setTaskSpotInBucket(task.getTaskSpotInBucket());
         taskRepo.save(taskToUpdate);
     }
+
+    @Override
+    public void updateAllTasks(Integer bucketId,List<Task> tasks) {
+        tasks.forEach((task) -> {
+            Bucket bucket = bucketRepo.findById(task.getBucketId()).get();
+            task.setBucket(bucket);
+            taskRepo.save(task);
+        });
+    }
+
 }

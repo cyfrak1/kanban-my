@@ -17,6 +17,8 @@ public class Task {
     private String taskDescription;
     @Column(nullable = false)
     private String taskDeadlineTime;
+    @Column(nullable = false)
+    private Integer taskSpotInBucket;
     @Column(name = "bucket_id", insertable = false, updatable = false)
     private Integer bucketId;
     @ManyToOne
@@ -72,5 +74,13 @@ public class Task {
 
     public Set<Label> getLabels() {
         return labels;
+    }
+
+    public Integer getTaskSpotInBucket() {
+        return taskSpotInBucket;
+    }
+
+    public void setTaskSpotInBucket(Integer taskSpotInBucket) {
+        this.taskSpotInBucket = taskSpotInBucket;
     }
 }

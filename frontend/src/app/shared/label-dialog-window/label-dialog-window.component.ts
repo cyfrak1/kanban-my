@@ -14,8 +14,8 @@ import { labelWidthChanged } from 'src/app/core/interfaces/labelInterface';
 export class LabelDialogWindowComponent implements OnInit {
 
   dialogData : PassDataToDialog = {
-    mainContent : 'ZAPOMNIAŁEŚ DODAĆ TEGO ZADANIA',
-    asideContent : 'Napisz tutaj dodatkowe uwagi. Aby to zrobić kliknij dwa razy w tekst.',
+    mainContent : '',
+    asideContent : '',
     currentBucketColor : '',
     tuskTermin : '',
     labels : []
@@ -41,6 +41,12 @@ export class LabelDialogWindowComponent implements OnInit {
       this.dialogRef.close();
       isDialogCloseListener.unsubscribe();
     });
+    if(this.dialogData.asideContent == null){
+      this.dialogData.asideContent = 'Napisz tutaj dodatkowe uwagi. Aby to zrobić kliknij dwa razy w tekst.';
+    }
+    if(this.dialogData.mainContent == null){
+      this.dialogData.mainContent = 'ZAPOMNIAŁEŚ DODAĆ TEGO ZADANIA';
+    }
   }
   ngAfterViewInit() : void {
 

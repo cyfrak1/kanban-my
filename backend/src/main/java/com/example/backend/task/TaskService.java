@@ -8,4 +8,5 @@ public interface TaskService {
     public List<Task> getAllTasks(Integer bucketId);
     public void deleteTask(Integer taskId);
     public void updateTask(Task task);
+    public void updateAllTasks(Integer bucketId,List<Task> tasks);
 }

@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { taskServerRes } from 'src/app/core/interfaces/taskInterface';
 import { TasksService } from 'src/app/core/services/tasks/tasks.service';
 import { BucketComponent } from '../bucket/bucket.component';
+import { CdkDragMove } from '@angular/cdk/drag-drop';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -16,11 +17,12 @@ import { BucketComponent } from '../bucket/bucket.component';
 export class CardComponent implements OnInit {
 
   @Input() taskData : taskServerRes = {
-    taskId: 0,
+    taskId: NaN,
     taskTitle : 'Zapomniałeś dodać tekstu tego zadania!!!',
     taskDescription : '',
     taskDeadlineTime : '',
-    bucketId : 0,
+    taskSpotInBucket : NaN,
+    bucketId : NaN,
   }
   @Input() currentBucketColor : string = '';
   @Output() isButtonClicked = new EventEmitter<boolean>();
@@ -41,11 +43,15 @@ export class CardComponent implements OnInit {
   }
   onDrag(event : any){
     const currentBucketId = event.container._changeDetectorRef._lView[22][3][8].bucketData.id;
+
     const subscription = this.tasksService.getTask(this.taskData.taskId).subscribe((task : taskServerRes)=>{
-      task.bucketId = currentBucketId;
-      const subscription2 = this.tasksService.updateTask(task).subscribe((res)=>{
-        subscription2.unsubscribe();
-      });
+      setTimeout(()=>{
+        task.bucketId = currentBucketId;
+        task.taskSpotInBucket = event.container.data.findIndex((item : taskServerRes)=> item.taskId == this.taskData.taskId);
+        const subscription2 = this.tasksService.updateTask(task).subscribe((res)=>{
+          subscription2.unsubscribe();
+        });
+      },10)
       subscription.unsubscribe();
     });
   }

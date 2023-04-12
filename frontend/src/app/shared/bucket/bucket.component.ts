@@ -44,7 +44,7 @@ export class BucketComponent implements OnInit {
   }
   getAllTasks() : void {
     const subscription = this.tasksService.getAllTasks(this.bucketData.id).subscribe((res : taskServerRes[])=>{
-      this.taskArray = res;
+      this.taskArray = res.sort((a,b)=> a.taskSpotInBucket - b.taskSpotInBucket);
       subscription.unsubscribe();
     })
   }
@@ -68,6 +68,15 @@ export class BucketComponent implements OnInit {
     }
   }
   drop(event: CdkDragDrop<taskServerRes[]>) : void {
+    setTimeout(()=>{
+      const tasks : taskServerRes[] = event.container.data;
+      tasks.forEach((element, currentIndex)=>{
+        element.taskSpotInBucket = currentIndex;
+      });
+      this.tasksService.updateAllTasks(this.bucketData.id,event.container.data).subscribe((res)=>{
+        console.log(res);
+      })
+    },10)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -78,7 +87,7 @@ export class BucketComponent implements OnInit {
         event.currentIndex,
       );
     }
-  }
+  } 
   elementDrag(event : any,taskId : number) : void {
     console.log(event);
     const subscription = this.tasksService.getTask(taskId).subscribe((task : taskServerRes)=>{
