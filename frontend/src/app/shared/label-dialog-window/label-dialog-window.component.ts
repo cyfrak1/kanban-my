@@ -4,7 +4,6 @@ import { PassDataToDialog, EditMode } from 'src/app/core/interfaces/dialogInterf
 import { CloseDialogService } from 'src/app/core/services/close-dialog/close-dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LabelComponent } from '../label/label.component';
-import { labelWidthChanged } from 'src/app/core/interfaces/labelInterface';
 
 @Component({
   selector: 'app-label-dialog-window',

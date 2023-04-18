@@ -12,3 +12,8 @@ export interface labelWidthChanged {
     oldLabelText : string,
     width : number,
 }
+export interface labelServerRes {
+    id : number,
+    labelText : string,
+    taskId : number,
+}

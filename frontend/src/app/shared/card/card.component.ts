@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChildren } from '@angular/core';
 import { QueryList } from '@angular/core';
 import { PassDataToDialogService } from 'src/app/core/services/pass-data-to-dialog/pass-data-to-dialog.service';
-import { labelData } from 'src/app/core/interfaces/labelInterface';
+import { labelData, labelServerRes } from 'src/app/core/interfaces/labelInterface';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/label-dialog-window.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import { taskServerRes } from 'src/app/core/interfaces/taskInterface';
 import { TasksService } from 'src/app/core/services/tasks/tasks.service';
 import { BucketComponent } from '../bucket/bucket.component';
 import { CdkDragMove } from '@angular/cdk/drag-drop';
+import { LabelsService } from 'src/app/core/services/labels/labels.service';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -35,11 +36,17 @@ export class CardComponent implements OnInit {
     public dialog: MatDialog,
     private passDataToDialogService : PassDataToDialogService, 
     private contextMenuService : ContextMenuService,
-    private tasksService : TasksService
+    private tasksService : TasksService,
+    private labelsService : LabelsService,
   ) { }
 
   ngOnInit(): void {
-
+    this.getAllLabels();
+  }
+  getAllLabels() : void {
+    this.labelsService.getAllLabels(this.taskData.taskId).subscribe((res : labelServerRes)=>{
+      console.log(res)
+    })
   }
   onDrag(event : any){
     const currentBucketId = event.container._changeDetectorRef._lView[22][3][8].bucketData.id;

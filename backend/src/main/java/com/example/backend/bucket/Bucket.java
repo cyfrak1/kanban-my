@@ -14,7 +14,7 @@ public class Bucket {
     @Column(nullable = false)
     private String bucketName;
     @JsonBackReference
-    @OneToMany(mappedBy = "bucket")
+    @OneToMany(mappedBy = "bucket", cascade = CascadeType.REMOVE)
     Set<Task> tasks;
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;

@@ -73,10 +73,8 @@ export class BucketComponent implements OnInit {
       tasks.forEach((element, currentIndex)=>{
         element.taskSpotInBucket = currentIndex;
       });
-      this.tasksService.updateAllTasks(this.bucketData.id,event.container.data).subscribe((res)=>{
-        console.log(res);
-      })
-    },10)
+      this.tasksService.updateAllTasks(this.bucketData.id,event.container.data).subscribe();
+    },1)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -84,7 +82,7 @@ export class BucketComponent implements OnInit {
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex, 
       );
     }
   } 
