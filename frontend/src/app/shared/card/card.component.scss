@@ -26,6 +26,7 @@
         min-height: 10px;
         width: 100%;
         display: flex;
+        flex-wrap: wrap;
         padding: 10px;
         &-icon{
             color: #DDDDDD;
@@ -72,6 +73,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    flex-wrap: wrap;
 }
 .icon-container{
     height: 18px;

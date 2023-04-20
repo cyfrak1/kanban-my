@@ -18,6 +18,7 @@ export class LabelComponent implements OnInit {
   @Input() disableEditModePernamently : boolean = false;
   @Output() textAfterEditMode = new EventEmitter<string>();
   @Output() componentDeleted = new EventEmitter<string>();
+  @Output() updatedDate = new EventEmitter<string>();
   editMode : boolean = false;
   isLabelDelete : boolean = false;
   private dateDiference : number = 0;
@@ -71,6 +72,9 @@ export class LabelComponent implements OnInit {
     this.changeLabelColorAccordingToDate();
     if(textAfterEditMode.textContent.length == 0){
       this.deleteLabel();
+    }
+    else{
+      this.updatedDate.emit(textAfterEditMode.textContent);
     }
     this.size.width = this.label.nativeElement.offsetWidth; 
   }

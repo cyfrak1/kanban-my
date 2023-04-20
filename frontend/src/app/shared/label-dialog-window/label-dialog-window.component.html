@@ -5,7 +5,7 @@
                 class="edit-input" 
                 role="textbox" 
                 contenteditable
-            >{{dialogData.mainContent}}</span>
+            >{{dialogData.taskTitle}}</span>
     </header>
     <header class="wrapper-labelWindow-labels">
         <app-label 
@@ -21,7 +21,7 @@
             <img src="../../../assets/add.png"  class="icon-container-icon" />
         </div>
     </header>
-    <article class="wrapper-labelWindow-content" (click)="activeEditMode(1)">
+    <article class="wrapper-labelWindow-content">
             <span 
                 class="edit-input-aside" 
                 type="text" 
@@ -30,14 +30,15 @@
                 role="textbox" 
                 contenteditable
             >
-                {{dialogData.asideContent}}
+                {{dialogData.taskDescription}}
             </span>
     </article>
     <footer class="wrapper-labelWindow-footer">
         <app-label 
             [labelType]="'DATE'" 
-            [text]="dialogData.tuskTermin" 
+            [text]="dialogData.taskDeadlineTime" 
             [size]="{width:100,height:40,fontSize:18}"
+            (updatedDate)="updatedDate($event)"
         ></app-label>
         <div class="button-container">
             <button mat-button mat-dialog-close>
@@ -45,7 +46,7 @@
                     cancel
                 </span>
             </button>
-            <button mat-button mat-dialog-close (click)="checkIfCanClose()" cdkFocusInitial>
+            <button mat-button (click)="sendUpdatedData(inputTitle,inputAsideContent)" [mat-dialog-close]="dialogData" cdkFocusInitial>
                 <span class="material-symbols-outlined" id="check">
                     check_circle
                 </span>

@@ -7,29 +7,12 @@ import { PassDataToDialog } from '../../interfaces/dialogInterface';
 })
 export class PassDataToDialogService {
 
-  private mainContent : string = '';
-  private asideContent : string = 'Napisz tutaj dodatkowe uwagi. Aby to zrobić kliknij dwa razy w tekst.';
-  private currentBucketColor : string = '';
-  private tuskTermin : string = '';
-  private labels : labelData[] = [];
-  constructor() { }
+  private dialogData : PassDataToDialog | any;
 
-  getDataToPass(mainContent : string, asideContent : string, currentBucketColor : string, tuskTermin : string, labels : labelData[]) : void {
-    this.mainContent = mainContent;
-    this.currentBucketColor = currentBucketColor;
-    this.tuskTermin = tuskTermin;
-    this.labels = labels;
-    if(asideContent != ''){
-      this.asideContent = asideContent;
-    }
+  getDataToPass(data : PassDataToDialog) : void {
+    this.dialogData = data;
   }
   passDataToDialog() : PassDataToDialog {
-    return {
-      mainContent : this.mainContent,
-      asideContent : this.asideContent,
-      currentBucketColor : this.currentBucketColor,
-      tuskTermin : this.tuskTermin,
-      labels : this.labels
-    }
+    return this.dialogData;
   }
 }

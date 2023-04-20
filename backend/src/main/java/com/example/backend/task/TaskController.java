@@ -29,9 +29,8 @@ public class TaskController {
         taskService.addTask(task);
         return ResponseEntity.ok("Task has been added successfully");
     }
-    @PutMapping("/update/{taskId}")
-    public ResponseEntity<String> update(@PathVariable Integer taskId, @RequestBody Task task){
-        task.setTaskId(taskId);
+    @PutMapping("/update")
+    public ResponseEntity<String> update(@RequestBody Task task){
         taskService.updateTask(task);
         return ResponseEntity.ok("Task has been updated successfully");
     }

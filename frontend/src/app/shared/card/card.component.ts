@@ -10,6 +10,7 @@ import { TasksService } from 'src/app/core/services/tasks/tasks.service';
 import { BucketComponent } from '../bucket/bucket.component';
 import { CdkDragMove } from '@angular/cdk/drag-drop';
 import { LabelsService } from 'src/app/core/services/labels/labels.service';
+import { PassDataToDialog } from 'src/app/core/interfaces/dialogInterface';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -30,8 +31,11 @@ export class CardComponent implements OnInit {
   @ViewChildren(BucketComponent) buckets !: QueryList<BucketComponent>;
   labels : labelData[] = [
     {labelText:'Magda', labelColor:'#978AFF'},
-    {labelText:'Zrób', labelColor:'#1199EE'}
+    {labelText:'Zrób', labelColor:'#1199EE'},
+    {labelText:'To szybko', labelColor:'#AA77FF'},
   ];
+  isTaskActive : boolean = true;
+  isDotActive : boolean = true;
   constructor(
     public dialog: MatDialog,
     private passDataToDialogService : PassDataToDialogService, 
@@ -42,11 +46,33 @@ export class CardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllLabels();
+    this.checkIfDotIsActive();
   }
   getAllLabels() : void {
     this.labelsService.getAllLabels(this.taskData.taskId).subscribe((res : labelServerRes)=>{
       console.log(res)
     })
+  }
+  checkIfDotIsActive() : void{
+    if(this.taskData.taskDescription == null) {
+      this.isDotActive = false;
+    }
+    else{
+      this.isDotActive = true;
+    }
+  }
+  passDataToDialog() : void {
+    const dataToPass : PassDataToDialog = {
+      taskId : this.taskData.taskId,
+      taskTitle : this.taskData.taskTitle,
+      taskDescription : this.taskData.taskDescription as string,
+      taskDeadlineTime : this.taskData.taskDeadlineTime,
+      taskSpotInBucket : this.taskData.taskSpotInBucket,
+      bucketId : this.taskData.bucketId,
+      currentBucketColor : this.currentBucketColor,
+      labels : this.labels
+    }
+    this.passDataToDialogService.getDataToPass(dataToPass);
   }
   onDrag(event : any){
     const currentBucketId = event.container._changeDetectorRef._lView[22][3][8].bucketData.id;
@@ -63,13 +89,7 @@ export class CardComponent implements OnInit {
     });
   }
   cardClicked() : void {
-    this.passDataToDialogService.getDataToPass(
-      this.taskData.taskTitle,
-      this.taskData.taskDescription,
-      this.currentBucketColor,
-      this.taskData.taskDeadlineTime,
-      this.labels
-    );
+    this.passDataToDialog();
     this.isButtonClicked.emit(true);
   }
   getMousePosition( event : MouseEvent ) : void {
@@ -78,20 +98,20 @@ export class CardComponent implements OnInit {
       positionY : event.clientY
     });
     this.contextMenuService.updateContextMenuData([
-      {menuElementName:'Archiwizuj',functionToLoad: () => ()=>{}},
+      {menuElementName:'Archiwizuj',functionToLoad: () => this.deleteCard()},
       {menuElementName:'Edytuj', functionToLoad: ()=>{this.openDialog()}}
     ])
     this.contextMenuService.updateContextMenuState(true,0);
-    this.passDataToDialogService.getDataToPass(
-      this.taskData.taskTitle,
-      this.taskData.taskDescription,
-      this.currentBucketColor,
-      this.taskData.taskDeadlineTime,
-      this.labels
-    );
+    this.passDataToDialog();
   }
   openDialog() : void {
-    this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
+    const dialogRef = this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
     this.contextMenuService.updateContextMenuState(false,0);
+    dialogRef.afterClosed().subscribe(res=> console.log(res.data))
+    
+  }
+  deleteCard() : void {
+    this.tasksService.deleteTask(this.taskData.taskId).subscribe((res)=>{ });
+    this.isTaskActive = false;
   }
 }

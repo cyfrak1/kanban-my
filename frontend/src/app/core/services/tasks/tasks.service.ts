@@ -21,9 +21,12 @@ export class TasksService {
     return this.http.get<taskServerRes>(`${this.api}/getTask/${taskId}`,{headers:this.headers});
   }
   updateTask(task : taskServerRes) {
-    return this.http.put(`${this.api}/update/${task.taskId}`,task,{headers: this.headers, responseType:"text"})
+    return this.http.put(`${this.api}/update`,task,{headers: this.headers, responseType:"text"})
   }
   updateAllTasks(bucketId : number, tasks : taskServerRes[]) {
     return this.http.put(`${this.api}/updateAllTasks/${bucketId}`,tasks,{headers: this.headers, responseType:"text"})
+  }
+  deleteTask(taskId : number) {
+    return this.http.delete(`${this.api}/delete/${taskId}`, {headers: this.headers, responseType:"text"});
   }
 }

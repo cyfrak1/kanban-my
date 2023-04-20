@@ -1,11 +1,14 @@
 import { labelData } from "./labelInterface";
 
 export interface PassDataToDialog {
-    mainContent : string,
-    asideContent : string,
+    taskId : number,
+    taskTitle : string,
+    taskDescription : string,
+    taskDeadlineTime : string,
+    taskSpotInBucket : number,
+    bucketId : number,
     currentBucketColor : string,
-    tuskTermin : string,
-    labels : labelData[],
+    labels : labelData[]
 }
 export interface EditMode {
     modeName : string,

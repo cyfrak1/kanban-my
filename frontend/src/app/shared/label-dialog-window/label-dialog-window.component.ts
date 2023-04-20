@@ -4,6 +4,9 @@ import { PassDataToDialog, EditMode } from 'src/app/core/interfaces/dialogInterf
 import { CloseDialogService } from 'src/app/core/services/close-dialog/close-dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LabelComponent } from '../label/label.component';
+import { TasksService } from 'src/app/core/services/tasks/tasks.service';
+import { BucketComponent } from '../bucket/bucket.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-label-dialog-window',
@@ -13,16 +16,15 @@ import { LabelComponent } from '../label/label.component';
 export class LabelDialogWindowComponent implements OnInit {
 
   dialogData : PassDataToDialog = {
-    mainContent : '',
-    asideContent : '',
+    taskId : NaN,
+    taskTitle : '',
+    taskDescription : '',
+    taskDeadlineTime : '',
+    taskSpotInBucket : NaN,
+    bucketId : NaN,
     currentBucketColor : '',
-    tuskTermin : '',
     labels : []
   };
-  editMode : EditMode[] = [
-    { modeName : 'mainContent', isActive : false },
-    { modeName : 'asideContent', isActive : false },
-  ];
   isDisableWindowClose : boolean = false;
   widthOfLabels : number = 0;
   @ViewChildren(LabelComponent) labels !: QueryList<LabelComponent>;
@@ -30,7 +32,9 @@ export class LabelDialogWindowComponent implements OnInit {
   constructor(
     private passDataToDialogService : PassDataToDialogService, 
     private closeDialogService : CloseDialogService,
-    private dialogRef : MatDialogRef<LabelDialogWindowComponent>
+    private dialogRef : MatDialogRef<LabelDialogWindowComponent>,
+    private tasksService : TasksService,
+    private router : Router,
   ) { }
 
   ngOnInit(): void {
@@ -40,11 +44,11 @@ export class LabelDialogWindowComponent implements OnInit {
       this.dialogRef.close();
       isDialogCloseListener.unsubscribe();
     });
-    if(this.dialogData.asideContent == null){
-      this.dialogData.asideContent = 'Napisz tutaj dodatkowe uwagi. Aby to zrobić kliknij dwa razy w tekst.';
+    if(this.dialogData.taskDescription == ''){
+      this.dialogData.taskDescription = 'Napisz tutaj dodatkowe uwagi. Aby to zrobić kliknij dwa razy w tekst.';
     }
-    if(this.dialogData.mainContent == null){
-      this.dialogData.mainContent = 'ZAPOMNIAŁEŚ DODAĆ TEGO ZADANIA';
+    if(this.dialogData.taskTitle == ''){
+      this.dialogData.taskTitle = 'ZAPOMNIAŁEŚ DODAĆ TEGO ZADANIA';
     }
   }
   ngAfterViewInit() : void {
@@ -53,7 +57,6 @@ export class LabelDialogWindowComponent implements OnInit {
       this.widthOfLabels = 0;
       this.labelsDataArray = res;
       this.getWidthOfLabels();
-      console.log('changed');
     });
 
     this.labelsDataArray = this.labels.toArray();
@@ -66,9 +69,6 @@ export class LabelDialogWindowComponent implements OnInit {
       }
     });
   }
-  activeEditMode(editModeNumber : number) : void {
-    this.editMode[editModeNumber].isActive = true;
-  }
   addNewLabel() : void {
     if(this.widthOfLabels + 124 <= 844){
       this.dialogData.labels.push({
@@ -77,13 +77,20 @@ export class LabelDialogWindowComponent implements OnInit {
       });
     }
   }
-  checkIfCanClose() : void {
-    if(this.editMode[0].isActive || this.editMode[1].isActive){
-      this.isDisableWindowClose = true;
+  sendUpdatedData(taskTitle : any, inputAsideContent : any) : void {
+    this.dialogData.taskTitle = taskTitle.textContent;
+    if(inputAsideContent.textContent.trim() == ""){
+      //@ts-ignore
+      this.dialogData.taskDescription = null;
     }
     else{
-      this.isDisableWindowClose = true;
+      this.dialogData.taskDescription = inputAsideContent.textContent;
     }
+    // this.dialogRef.close(this.dialogData)
+    this.tasksService.updateTask(this.dialogData).subscribe(()=>{});
+    this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/dashboard']);
+  }); 
   }
   changeDialogSize() : void {
     document.documentElement.style.setProperty('--heightOfDialog', '10px');
@@ -97,5 +104,8 @@ export class LabelDialogWindowComponent implements OnInit {
         this.widthOfLabels -= label.size.width;
       }
     })
+  }
+  updatedDate(newDate : string) : void {
+    this.dialogData.taskDeadlineTime = newDate;
   }
 }

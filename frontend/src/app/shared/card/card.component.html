@@ -4,22 +4,16 @@
     cdkDrag 
     (click)="cardClicked()" 
     (contextmenu)="getMousePosition($event)"
+    *ngIf="isTaskActive"
 >
     <header class="wrapper-card-container">
         <div class="labels">
             <app-label 
-                [text]="'Magda'" 
+                *ngFor="let label of labels"
+                [text]="label.labelText" 
                 [labelType]="'TEXT'" 
                 [margin]="'2px'" 
-                [labelColor]="'#978AFF'" 
-                [disableEditModePernamently]="true"
-                [size]="{width:70,height:22,fontSize:14}" 
-            ></app-label>
-            <app-label 
-                [text]="'Zrób'" 
-                [labelType]="'TEXT'" 
-                [margin]="'2px'" 
-                [labelColor]="'#1199EE'" 
+                [labelColor]="label.labelColor" 
                 [disableEditModePernamently]="true"
                 [size]="{width:70,height:22,fontSize:14}" 
             ></app-label>
@@ -38,7 +32,7 @@
             [disableEditModePernamently]="true"
             [size]="{width:70,height:22,fontSize:13}" 
         ></app-label>
-        <div class="wrapper-card-date-dot" *ngIf="true">
+        <div class="wrapper-card-date-dot" *ngIf="isDotActive">
             <div class="wrapper-card-date-dot-decoration"></div>
         </div>
     </footer>
