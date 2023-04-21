@@ -48,7 +48,8 @@ export class CardComponent implements OnInit {
   }
   getAllLabels() : void {
     this.labelsService.getAllLabels(this.taskData.taskId).subscribe((res : labelServerRes[])=>{
-      this.labels = res;
+      const labels = res.sort((a,b) => a.id - b.id);
+      this.labels = labels;
     })
   }
   checkIfDotIsActive() : void{

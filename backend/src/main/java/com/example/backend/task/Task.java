@@ -25,7 +25,7 @@ public class Task {
     @JoinColumn(name="bucket_id", nullable = false, referencedColumnName="id")
     private Bucket bucket;
     @JsonBackReference
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task",cascade = CascadeType.REMOVE)
     Set<Label> labels;
 
     public int getTaskId() {

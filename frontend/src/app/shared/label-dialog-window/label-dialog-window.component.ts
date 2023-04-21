@@ -44,6 +44,7 @@ export class LabelDialogWindowComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialogData = this.passDataToDialogService.passDataToDialog();
+    console.log(this.dialogData.labels)
     document.documentElement.style.setProperty('--borderColor', this.dialogData.currentBucketColor);
     const isDialogCloseListener = this.closeDialogService.isDialogCloseListener().subscribe((res)=>{
       this.dialogRef.close();
@@ -78,7 +79,8 @@ export class LabelDialogWindowComponent implements OnInit {
     if(this.widthOfLabels + 124 <= 844){
       const subcription = this.labelsService.addLabel(this.dialogData.taskId,"Nazwij mnie").subscribe(()=>{
         this.labelsService.getAllLabels(this.dialogData.taskId).subscribe((res)=>{
-          this.dialogData.labels = res;
+          const labels = res.sort((a,b) => a.id - b.id);
+          this.dialogData.labels = labels;
         });
         subcription.unsubscribe();
       });
