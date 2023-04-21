@@ -1,4 +1,4 @@
-import { labelData } from "./labelInterface";
+import { labelServerRes} from "./labelInterface";
 
 export interface PassDataToDialog {
     taskId : number,
@@ -8,7 +8,7 @@ export interface PassDataToDialog {
     taskSpotInBucket : number,
     bucketId : number,
     currentBucketColor : string,
-    labels : labelData[]
+    labels : labelServerRes[]
 }
 export interface EditMode {
     modeName : string,

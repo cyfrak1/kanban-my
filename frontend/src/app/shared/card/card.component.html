@@ -9,13 +9,13 @@
     <header class="wrapper-card-container">
         <div class="labels">
             <app-label 
-                *ngFor="let label of labels"
+                *ngFor="let label of labels; let i = index"
                 [text]="label.labelText" 
                 [labelType]="'TEXT'" 
                 [margin]="'2px'" 
-                [labelColor]="label.labelColor" 
                 [disableEditModePernamently]="true"
-                [size]="{width:70,height:22,fontSize:14}" 
+                [size]="{width:70,height:22,fontSize:14}"
+                [labelColor]="colors[i]" 
             ></app-label>
             <div class="icon-container">
                 <img class="icon-container-icon" src="../../../assets/add.png">

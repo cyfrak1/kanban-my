@@ -21,7 +21,7 @@ public class LabelController {
     private ResponseEntity<List<Label>> getAllLabels(@PathVariable int taskId) {
         return ResponseEntity.ok(labelService.getAllLabels(taskId));
     }
-    @DeleteMapping("/delete/{labelId}")
+        @DeleteMapping("/delete/{labelId}")
     private ResponseEntity<String> delete(@PathVariable int labelId) {
         labelService.delteLabel(labelId);
         return ResponseEntity.ok("Label has been deleted successfully");

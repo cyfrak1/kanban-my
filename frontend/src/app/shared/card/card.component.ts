@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChildren } from '@angular/core';
 import { QueryList } from '@angular/core';
 import { PassDataToDialogService } from 'src/app/core/services/pass-data-to-dialog/pass-data-to-dialog.service';
-import { labelData, labelServerRes } from 'src/app/core/interfaces/labelInterface';
+import { labelServerRes } from 'src/app/core/interfaces/labelInterface';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/label-dialog-window.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { BucketComponent } from '../bucket/bucket.component';
 import { CdkDragMove } from '@angular/cdk/drag-drop';
 import { LabelsService } from 'src/app/core/services/labels/labels.service';
 import { PassDataToDialog } from 'src/app/core/interfaces/dialogInterface';
+import { Constants } from 'src/app/config/constants';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -29,13 +30,10 @@ export class CardComponent implements OnInit {
   @Input() currentBucketColor : string = '';
   @Output() isButtonClicked = new EventEmitter<boolean>();
   @ViewChildren(BucketComponent) buckets !: QueryList<BucketComponent>;
-  labels : labelData[] = [
-    {labelText:'Magda', labelColor:'#978AFF'},
-    {labelText:'Zrób', labelColor:'#1199EE'},
-    {labelText:'To szybko', labelColor:'#AA77FF'},
-  ];
+  labels : labelServerRes[] = [];
   isTaskActive : boolean = true;
   isDotActive : boolean = true;
+  colors : string[] = Constants.colors;
   constructor(
     public dialog: MatDialog,
     private passDataToDialogService : PassDataToDialogService, 
@@ -49,8 +47,8 @@ export class CardComponent implements OnInit {
     this.checkIfDotIsActive();
   }
   getAllLabels() : void {
-    this.labelsService.getAllLabels(this.taskData.taskId).subscribe((res : labelServerRes)=>{
-      console.log(res)
+    this.labelsService.getAllLabels(this.taskData.taskId).subscribe((res : labelServerRes[])=>{
+      this.labels = res;
     })
   }
   checkIfDotIsActive() : void{
@@ -105,10 +103,8 @@ export class CardComponent implements OnInit {
     this.passDataToDialog();
   }
   openDialog() : void {
-    const dialogRef = this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
+    this.dialog.open(LabelDialogWindowComponent,{panelClass: 'coustomDialog', disableClose: true});
     this.contextMenuService.updateContextMenuState(false,0);
-    dialogRef.afterClosed().subscribe(res=> console.log(res.data))
-    
   }
   deleteCard() : void {
     this.tasksService.deleteTask(this.taskData.taskId).subscribe((res)=>{ });

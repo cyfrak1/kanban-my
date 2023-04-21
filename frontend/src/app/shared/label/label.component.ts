@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 })
 export class LabelComponent implements OnInit {
 
+  @Input() labelId : number = 0;
   @Input() text : string = 'Opis';
   @Input() labelType : labelType = 'TEXT';
   @Input() size : labelSize = { width:70, height:20, fontSize:10};
@@ -17,8 +18,8 @@ export class LabelComponent implements OnInit {
   @Input() labelColor : string = '#FF88AA';
   @Input() disableEditModePernamently : boolean = false;
   @Output() textAfterEditMode = new EventEmitter<string>();
-  @Output() componentDeleted = new EventEmitter<string>();
-  @Output() updatedDate = new EventEmitter<string>();
+  @Output() componentDeleted = new EventEmitter<number>();
+  @Output() updatedData = new EventEmitter<{labelId : number, labelText : string}>();
   editMode : boolean = false;
   isLabelDelete : boolean = false;
   private dateDiference : number = 0;
@@ -74,12 +75,15 @@ export class LabelComponent implements OnInit {
       this.deleteLabel();
     }
     else{
-      this.updatedDate.emit(textAfterEditMode.textContent);
+      this.updatedData.emit({
+        labelId : this.labelId,
+        labelText : textAfterEditMode.textContent
+      });
     }
     this.size.width = this.label.nativeElement.offsetWidth; 
   }
   deleteLabel() : void {
-    this.componentDeleted.emit(this.text);
+    this.componentDeleted.emit(this.labelId);
     this.isLabelDelete = true;
   }
 }

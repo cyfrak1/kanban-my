@@ -7,6 +7,9 @@ import { LabelComponent } from '../label/label.component';
 import { TasksService } from 'src/app/core/services/tasks/tasks.service';
 import { BucketComponent } from '../bucket/bucket.component';
 import { Router } from '@angular/router';
+import { labelServerRes } from 'src/app/core/interfaces/labelInterface';
+import { LabelsService } from 'src/app/core/services/labels/labels.service';
+import { Constants } from 'src/app/config/constants';
 
 @Component({
   selector: 'app-label-dialog-window',
@@ -25,6 +28,7 @@ export class LabelDialogWindowComponent implements OnInit {
     currentBucketColor : '',
     labels : []
   };
+  colors : string[] = Constants.colors;
   isDisableWindowClose : boolean = false;
   widthOfLabels : number = 0;
   @ViewChildren(LabelComponent) labels !: QueryList<LabelComponent>;
@@ -35,6 +39,7 @@ export class LabelDialogWindowComponent implements OnInit {
     private dialogRef : MatDialogRef<LabelDialogWindowComponent>,
     private tasksService : TasksService,
     private router : Router,
+    private labelsService : LabelsService
   ) { }
 
   ngOnInit(): void {
@@ -71,9 +76,11 @@ export class LabelDialogWindowComponent implements OnInit {
   }
   addNewLabel() : void {
     if(this.widthOfLabels + 124 <= 844){
-      this.dialogData.labels.push({
-        labelText : 'Nazwij mnie',
-        labelColor : '',
+      const subcription = this.labelsService.addLabel(this.dialogData.taskId,"Nazwij mnie").subscribe(()=>{
+        this.labelsService.getAllLabels(this.dialogData.taskId).subscribe((res)=>{
+          this.dialogData.labels = res;
+        });
+        subcription.unsubscribe();
       });
     }
   }
@@ -86,7 +93,6 @@ export class LabelDialogWindowComponent implements OnInit {
     else{
       this.dialogData.taskDescription = inputAsideContent.textContent;
     }
-    // this.dialogRef.close(this.dialogData)
     this.tasksService.updateTask(this.dialogData).subscribe(()=>{});
     this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/dashboard']);
@@ -95,17 +101,22 @@ export class LabelDialogWindowComponent implements OnInit {
   changeDialogSize() : void {
     document.documentElement.style.setProperty('--heightOfDialog', '10px');
   }
-  removeLabelFromArray( componentText : string ) : void {
+  removeLabelFromArray( laeblId : number ) : void {
+    this.labelsService.deleteLabel(laeblId).subscribe(()=>{});
     this.dialogData.labels = this.dialogData.labels.filter((label) => {
-      return label.labelText != componentText
+      return label.id != laeblId;
     });
-    this.labelsDataArray.filter((label)=>{
-      if(label.text == componentText){
-        this.widthOfLabels -= label.size.width;
+  }
+  updatedDate(newDate : any) : void {
+    this.dialogData.taskDeadlineTime = newDate.labelText;
+  }
+  updateLabel(updatedLabel : any) : void {
+    this.dialogData.labels.forEach((label : labelServerRes) => {
+      if(label.id == updatedLabel.labelId){
+        label.labelText = updatedLabel.labelText;
+        this.labelsService.updateLabel(updatedLabel.labelId, updatedLabel.labelText).subscribe(()=>{})
       }
     })
-  }
-  updatedDate(newDate : string) : void {
-    this.dialogData.taskDeadlineTime = newDate;
+    console.log(this.dialogData.labels)
   }
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { labelData } from '../../interfaces/labelInterface';
 import { PassDataToDialog } from '../../interfaces/dialogInterface';
 
 @Injectable({
