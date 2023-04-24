@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthGuardGuard } from 'src/app/core/auth-guard.guard';
 import { LoginService } from 'src/app/core/services/login/login.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class LoginPageComponent implements OnInit {
   hide : boolean = true;
   loginError : boolean = false;
 
-  constructor( private router : Router, private loginService : LoginService) { }
+  constructor( private router : Router, private loginService : LoginService, private authGuard : AuthGuardGuard) { }
 
   ngOnInit(): void {
   }
@@ -30,11 +31,12 @@ export class LoginPageComponent implements OnInit {
   checkData() : void {
     if(this.email.valid && this.password.valid){
       this.loginService.login(this.email.value,this.password.value).subscribe((res : boolean)=>{
-        console.log(res)
         if(res){
+          this.authGuard.isActive = true;
           this.router.navigate(['/dashboard']);
         }
         else{
+          this.authGuard.isActive = false;
           this.loginError = true;
         }
       })
