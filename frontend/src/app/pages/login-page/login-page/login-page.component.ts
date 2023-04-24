@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/core/services/login/login.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,7 +15,7 @@ export class LoginPageComponent implements OnInit {
   hide : boolean = true;
   loginError : boolean = false;
 
-  constructor( private router : Router) { }
+  constructor( private router : Router, private loginService : LoginService) { }
 
   ngOnInit(): void {
   }
@@ -26,21 +27,21 @@ export class LoginPageComponent implements OnInit {
     }
     return currentControl.hasError('email') ? 'Niepoprawny email' : '';
   }
-  // checkData() : void {
-  //   if(this.email.valid && this.password.valid){
-  //     this.loginService.login(this.email.value,this.password.value);
-  //     this.loginService.loginResListener().subscribe((data : loginResInterface )=> {
-  //       if(data.status == "OK"){
-  //         this.router.navigate(['/dashboard']);
-  //       }
-  //       else{
-  //         this.loginError = true;
-  //       }
-  //     })
-  //   }
-  //   else{
-  //     this.email.markAsTouched();
-  //     this.password.markAsTouched();
-  //   }
-  // }
+  checkData() : void {
+    if(this.email.valid && this.password.valid){
+      this.loginService.login(this.email.value,this.password.value).subscribe((res : boolean)=>{
+        console.log(res)
+        if(res){
+          this.router.navigate(['/dashboard']);
+        }
+        else{
+          this.loginError = true;
+        }
+      })
+    }
+    else{
+      this.email.markAsTouched();
+      this.password.markAsTouched();
+    }
+  }
 }

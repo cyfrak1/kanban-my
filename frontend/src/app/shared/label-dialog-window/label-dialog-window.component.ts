@@ -31,6 +31,8 @@ export class LabelDialogWindowComponent implements OnInit {
   colors : string[] = Constants.colors;
   isDisableWindowClose : boolean = false;
   widthOfLabels : number = 0;
+  stateOfAlert : boolean = false;
+  isAddActive : boolean = true;
   @ViewChildren(LabelComponent) labels !: QueryList<LabelComponent>;
   labelsDataArray : LabelComponent[] = [];
   constructor(
@@ -44,7 +46,7 @@ export class LabelDialogWindowComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialogData = this.passDataToDialogService.passDataToDialog();
-    console.log(this.dialogData.labels)
+    setTimeout(()=>{this.checkIfCanDisplayAddIcon()},10);
     document.documentElement.style.setProperty('--borderColor', this.dialogData.currentBucketColor);
     const isDialogCloseListener = this.closeDialogService.isDialogCloseListener().subscribe((res)=>{
       this.dialogRef.close();
@@ -69,21 +71,34 @@ export class LabelDialogWindowComponent implements OnInit {
     this.getWidthOfLabels();
   }
   getWidthOfLabels() : void {
+    this.widthOfLabels = 20;
     this.labelsDataArray.forEach((element : LabelComponent) => {
       if(element.labelType == "TEXT"){
-        this.widthOfLabels += element.size.width;
+        this.widthOfLabels += element.size.width + 16;
       }
     });
   }
   addNewLabel() : void {
+    this.getWidthOfLabels();
     if(this.widthOfLabels + 124 <= 844){
       const subcription = this.labelsService.addLabel(this.dialogData.taskId,"Nazwij mnie").subscribe(()=>{
         this.labelsService.getAllLabels(this.dialogData.taskId).subscribe((res)=>{
           const labels = res.sort((a,b) => a.id - b.id);
           this.dialogData.labels = labels;
+          setTimeout(()=>{this.checkIfCanDisplayAddIcon()},10);
         });
         subcription.unsubscribe();
       });
+    }
+  }
+  checkIfCanDisplayAddIcon() : void {
+    this.getWidthOfLabels();
+    console.log(this.widthOfLabels)
+    if(this.widthOfLabels + 124 <= 844){
+      this.isAddActive = true;
+    }
+    else{
+      this.isAddActive = false;
     }
   }
   sendUpdatedData(taskTitle : any, inputAsideContent : any) : void {
@@ -108,8 +123,10 @@ export class LabelDialogWindowComponent implements OnInit {
     this.dialogData.labels = this.dialogData.labels.filter((label) => {
       return label.id != laeblId;
     });
+    setTimeout(()=>{this.checkIfCanDisplayAddIcon()},10);
   }
   updatedDate(newDate : any) : void {
+    this.stateOfAlert = false;
     this.dialogData.taskDeadlineTime = newDate.labelText;
   }
   updateLabel(updatedLabel : any) : void {
@@ -119,6 +136,8 @@ export class LabelDialogWindowComponent implements OnInit {
         this.labelsService.updateLabel(updatedLabel.labelId, updatedLabel.labelText).subscribe(()=>{})
       }
     })
-    console.log(this.dialogData.labels)
+  }
+  changeStateOfAlert() : void {
+    this.stateOfAlert = true;
   }
 }

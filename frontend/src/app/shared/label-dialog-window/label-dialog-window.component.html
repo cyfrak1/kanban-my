@@ -19,7 +19,7 @@
             (componentDeleted)="removeLabelFromArray($event)"
             (updatedData)="updateLabel($event)"
         ></app-label>
-        <div class="icon-container" (click)="addNewLabel()">
+        <div *ngIf="isAddActive" class="icon-container" (click)="addNewLabel()">
             <img src="../../../assets/add.png"  class="icon-container-icon" />
         </div>
     </header>
@@ -41,7 +41,11 @@
             [text]="dialogData.taskDeadlineTime" 
             [size]="{width:100,height:40,fontSize:18}"
             (updatedData)="updatedDate($event)"
+            (dbclick)="changeStateOfAlert()"
         ></app-label>
+        <div *ngIf="stateOfAlert" class="icon-container-2" matTooltip="Data nie została zapisana" [matTooltipPosition]="'right'">
+            !
+        </div>
         <div class="button-container">
             <button mat-button mat-dialog-close>
                 <span class="material-symbols-outlined" id="cancel" cdkFocusInitial>

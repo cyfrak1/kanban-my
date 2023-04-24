@@ -15,5 +15,5 @@
     <div class="wrapper-login-error">
       <mat-error *ngIf="loginError">Podany login lub hasło jest błędne</mat-error>
     </div>
-    <button mat-button [style.width.px]="300">Zaloguj</button>
+    <button mat-button [style.width.px]="300" (click)="checkData()">Zaloguj</button>
 </div>
