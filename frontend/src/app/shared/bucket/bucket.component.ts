@@ -86,14 +86,13 @@ export class BucketComponent implements OnInit {
       );
     }
   } 
-  elementDrag(event : any, taskId : number) : void {
-    console.log('did it')
-    const subscription = this.tasksService.getTask(taskId).subscribe((task : taskServerRes)=>{
-      task.bucketId = this.bucketData.id;
-      this.tasksService.updateTask(task);
-      subscription.unsubscribe();
-    });
-  }
+  // elementDrag(event : any, taskId : number) : void {
+  //   const subscription = this.tasksService.getTask(taskId).subscribe((task : taskServerRes)=>{
+  //     task.bucketId = this.bucketData.id;
+  //     this.tasksService.updateTask(task);
+  //     subscription.unsubscribe();
+  //   });
+  // }
   isButtonClicked( buttonState : boolean ) : void {
     if(!this.dialog.openDialogs || !this.dialog.openDialogs.length){
       this.activateDialogLabel.emit(buttonState);

@@ -74,18 +74,8 @@ export class CardComponent implements OnInit {
     this.passDataToDialogService.getDataToPass(dataToPass);
   }
   onDrag(event : any){
-    const currentBucketId = event.container._changeDetectorRef._lView[22][3][8].bucketData.id;
-
-    const subscription = this.tasksService.getTask(this.taskData.taskId).subscribe((task : taskServerRes)=>{
-      setTimeout(()=>{
-        task.bucketId = currentBucketId;
-        task.taskSpotInBucket = event.container.data.findIndex((item : taskServerRes)=> item.taskId == this.taskData.taskId);
-        const subscription2 = this.tasksService.updateTask(task).subscribe((res)=>{
-          subscription2.unsubscribe();
-        });
-      },10)
-      subscription.unsubscribe();
-    });
+    this.taskData.bucketId = event.container._changeDetectorRef._lView[22][3][8].bucketData.id;
+    this.tasksService.updateTask(this.taskData).subscribe((res)=>{});
   }
   cardClicked() : void {
     this.passDataToDialog();

@@ -23,7 +23,6 @@
             [currentBucketColor]="bucketColor" 
             [taskData]="item"
             (isButtonClicked)="isButtonClicked($event)"
-            (cdkDragDropped)="elementDrag($event,item.taskId)"
         ></app-card>
         <div class="button-container" (contextmenu)="activateContextMenu($event)">
         <button class="button-container-button">
