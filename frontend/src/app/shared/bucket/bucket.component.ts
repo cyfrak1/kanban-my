@@ -87,6 +87,7 @@ export class BucketComponent implements OnInit {
     }
   } 
   elementDrag(event : any, taskId : number) : void {
+    console.log('did it')
     const subscription = this.tasksService.getTask(taskId).subscribe((task : taskServerRes)=>{
       task.bucketId = this.bucketData.id;
       this.tasksService.updateTask(task);
