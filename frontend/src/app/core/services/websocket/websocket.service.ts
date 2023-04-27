@@ -1,20 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Constants } from 'src/app/config/constants';
 import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
 
-  // private API : string = Constants.websocket;
-  // private socket = SockJS
-  // constructor() { }
+  private WEBSOCKET_ADRESS : string = Constants.WEBSOCKET_ADRESS;
+  private socket = new SockJS(this.WEBSOCKET_ADRESS);
+  private stompClient = Stomp.over(this.socket);
+  constructor() { }
 
-  socketSubscription() {
-    const ws = new WebSocket('ws://localhost:8080');
-    ws.addEventListener("open",(res : any)=>{
-      console.log(res)
+  subscribe(topic : string, callback : any) {
+    const connected : boolean = this.stompClient.connected;
+    if(connected) {
+      this.subscribeToTopic(topic,callback);
+      return;
+    }
+
+    this.stompClient.connect({}, () => {
+      this.subscribeToTopic(topic,callback);
+    })
+  }
+
+  private subscribeToTopic(topic : string, callback : any) {
+    this.stompClient.subscribe(topic, ()=> {
+      callback();
     })
   }
 }

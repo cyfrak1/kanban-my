@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthGuardGuard } from 'src/app/core/auth-guard.guard';
+import { AuthGuardGuard } from 'src/app/core/guards/auth-guard.guard';
 import { LoginService } from 'src/app/core/services/login/login.service';
 
 @Component({

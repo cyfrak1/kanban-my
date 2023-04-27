@@ -25,6 +25,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { EscapeDirective } from './core/directives/escape/escape.directive';
 import { ContextMenuComponent } from './shared/context-menu/context-menu.component';
+import { WebsocketService } from './core/services/websocket/websocket.service';
 
 
 @NgModule({
@@ -57,7 +58,7 @@ import { ContextMenuComponent } from './shared/context-menu/context-menu.compone
     MatBadgeModule,
     MatTooltipModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

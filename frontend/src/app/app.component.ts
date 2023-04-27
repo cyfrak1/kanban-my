@@ -14,6 +14,8 @@ export class AppComponent implements OnInit{
     event.preventDefault();
   }
   ngOnInit() : void {
-    this.websocketService.socketSubscription()
+    this.websocketService.subscribe('/topic/messages', ()=> {
+      
+    })
   }
 }
