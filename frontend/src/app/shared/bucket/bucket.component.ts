@@ -8,6 +8,7 @@ import { taskServerRes } from 'src/app/core/interfaces/taskInterface';
 import { TasksService } from 'src/app/core/services/tasks/tasks.service';
 import { WebsocketService } from 'src/app/core/services/websocket-config/websocket.service';
 import { websocketResponseType } from 'src/app/core/types/websocketResponse';
+import { WebsocketConnectionService } from 'src/app/core/services/websocket-connection/websocket-connection.service';
 
 @Component({
   selector: 'app-bucket',
@@ -33,7 +34,8 @@ export class BucketComponent implements OnInit {
     private contextMenuService : ContextMenuService,
     private bucketsService : BucketsService,
     private tasksService : TasksService,
-    private websocketService : WebsocketService
+    private websocketService : WebsocketService,
+    private websocketConnectionService : WebsocketConnectionService,
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +44,11 @@ export class BucketComponent implements OnInit {
       this.setBorderColor();
     }
     this.getAllTasks();
+    this.websocketConnectionService.webSocketConnectionResponse().subscribe((res : websocketResponseType)=>{
+      if(res == 'tasks') {
+        this.getAllTasks();
+      }
+    })
   }
   getAllTasks() : void {
     const subscription = this.tasksService.getAllTasks(this.bucketData.id).subscribe((res : taskServerRes[])=>{
@@ -115,6 +122,7 @@ export class BucketComponent implements OnInit {
   }
   deleteBucket() : void {
     this.bucketsService.deleteBucket(this.bucketData.id);
+    this.websocketService.send('buckets');
     this.isBucketActive = false;
   }
 }

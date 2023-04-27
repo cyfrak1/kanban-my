@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { CdkDragMove } from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import { moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { LabelDialogWindowComponent } from 'src/app/shared/label-dialog-window/label-dialog-window.component';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
-import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { ContextMenuData } from 'src/app/core/interfaces/contextMenuInterface';
 import { BucketsService } from 'src/app/core/services/buckets/buckets.service';
@@ -29,7 +28,6 @@ export class DasboardPageComponent implements OnInit {
   constructor(
     public dialog: MatDialog, 
     private scroll : ViewportScroller, 
-    private router : Router, 
     private contextMenuService : ContextMenuService, 
     private bucketsService : BucketsService,
     private websocketService : WebsocketService,
@@ -41,7 +39,7 @@ export class DasboardPageComponent implements OnInit {
       this.contextMenuState = res;
     });
     this.getBucketsFromServer();
-    this.websocketConnectionService.webSocketConnectionResponse().subscribe(( res : websocketResponseType )=>{
+    this.websocketConnectionService.webSocketConnectionResponse().subscribe((res : websocketResponseType)=>{
       if(res == "buckets"){
         this.getBucketsFromServer();
       }

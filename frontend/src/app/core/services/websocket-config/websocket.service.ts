@@ -25,7 +25,7 @@ export class WebsocketService {
       this.subscribeToTopic(topic,callback);
     })
   }
-  send(value : string) : void {
+  send(value : websocketResponseType) : void {
     this.stompClient.send('/topic/messages',{},value);
   }
   private subscribeToTopic(topic : string, callback : any) {
