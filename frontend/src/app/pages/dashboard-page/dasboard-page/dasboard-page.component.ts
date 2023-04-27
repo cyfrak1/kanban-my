@@ -9,6 +9,9 @@ import { ViewportScroller } from '@angular/common';
 import { ContextMenuData } from 'src/app/core/interfaces/contextMenuInterface';
 import { BucketsService } from 'src/app/core/services/buckets/buckets.service';
 import { bucketServerRes } from 'src/app/core/interfaces/bucketInterface';
+import { WebsocketService } from 'src/app/core/services/websocket-config/websocket.service';
+import { websocketResponseType } from 'src/app/core/types/websocketResponse';
+import { WebsocketConnectionService } from 'src/app/core/services/websocket-connection/websocket-connection.service';
 
 @Component({
   selector: 'app-dasboard-page',
@@ -23,13 +26,26 @@ export class DasboardPageComponent implements OnInit {
     {menuElementName:'Edytuj', functionToLoad: () => this.activateDialogLabel()}
   ]
   contextMenuState : boolean = false;
-  constructor(public dialog: MatDialog, private scroll : ViewportScroller, private router : Router, private contextMenuService : ContextMenuService, private bucketsService : BucketsService) { }
+  constructor(
+    public dialog: MatDialog, 
+    private scroll : ViewportScroller, 
+    private router : Router, 
+    private contextMenuService : ContextMenuService, 
+    private bucketsService : BucketsService,
+    private websocketService : WebsocketService,
+    private websocketConnectionService : WebsocketConnectionService
+    ) { }
 
   ngOnInit(): void {
     this.contextMenuService.isContextMenuActiveListener().subscribe((res : boolean)=>{
       this.contextMenuState = res;
     });
     this.getBucketsFromServer();
+    this.websocketConnectionService.webSocketConnectionResponse().subscribe(( res : websocketResponseType )=>{
+      if(res == "buckets"){
+        this.getBucketsFromServer();
+      }
+    })
   }
   getBucketsFromServer() : void {
     const connection = this.bucketsService.getAllBuckets().subscribe((data : bucketServerRes[])=>{
@@ -61,6 +77,7 @@ export class DasboardPageComponent implements OnInit {
   createNewBucket() : void {
     const connection = this.bucketsService.addNewBucket({"bucketName":"Nazwij mnie"}).subscribe((res)=>{
       this.getBucketsFromServer();
+      this.websocketService.send('buckets');
       connection.unsubscribe();
     })
   }

@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { GetTaskService } from 'src/app/core/services/get-task/get-task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 import { bucketServerRes } from 'src/app/core/interfaces/bucketInterface';
 import { BucketsService } from 'src/app/core/services/buckets/buckets.service';
 import { taskServerRes } from 'src/app/core/interfaces/taskInterface';
 import { TasksService } from 'src/app/core/services/tasks/tasks.service';
+import { WebsocketService } from 'src/app/core/services/websocket-config/websocket.service';
+import { websocketResponseType } from 'src/app/core/types/websocketResponse';
 
 @Component({
   selector: 'app-bucket',
@@ -28,11 +29,11 @@ export class BucketComponent implements OnInit {
   isBucketActive : boolean = true;
 
   constructor( 
-    private getTaskService : GetTaskService, 
     public dialog: MatDialog,
     private contextMenuService : ContextMenuService,
     private bucketsService : BucketsService,
-    private tasksService : TasksService
+    private tasksService : TasksService,
+    private websocketService : WebsocketService
   ) { }
 
   ngOnInit(): void {
@@ -74,6 +75,7 @@ export class BucketComponent implements OnInit {
         element.taskSpotInBucket = currentIndex;
       });
       this.tasksService.updateAllTasks(this.bucketData.id,event.container.data).subscribe();
+      this.websocketService.send('tasks');
     },1)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -86,13 +88,6 @@ export class BucketComponent implements OnInit {
       );
     }
   } 
-  // elementDrag(event : any, taskId : number) : void {
-  //   const subscription = this.tasksService.getTask(taskId).subscribe((task : taskServerRes)=>{
-  //     task.bucketId = this.bucketData.id;
-  //     this.tasksService.updateTask(task);
-  //     subscription.unsubscribe();
-  //   });
-  // }
   isButtonClicked( buttonState : boolean ) : void {
     if(!this.dialog.openDialogs || !this.dialog.openDialogs.length){
       this.activateDialogLabel.emit(buttonState);

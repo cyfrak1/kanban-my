@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Constants } from 'src/app/config/constants';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
+import { websocketResponseType } from '../../types/websocketResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +25,12 @@ export class WebsocketService {
       this.subscribeToTopic(topic,callback);
     })
   }
-
+  send(value : string) : void {
+    this.stompClient.send('/topic/messages',{},value);
+  }
   private subscribeToTopic(topic : string, callback : any) {
-    this.stompClient.subscribe(topic, ()=> {
-      callback();
+    this.stompClient.subscribe(topic, (res : websocketResponseType)=> {
+      callback(res);
     })
   }
 }

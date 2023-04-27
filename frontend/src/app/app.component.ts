@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { WebsocketService } from './core/services/websocket/websocket.service';
+import { WebsocketConnectionService } from './core/services/websocket-connection/websocket-connection.service';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +8,12 @@ import { WebsocketService } from './core/services/websocket/websocket.service';
 })
 export class AppComponent implements OnInit{
   title = 'frontend';
-  constructor(private websocketService : WebsocketService) { }
+  constructor(private websocketConnectionService : WebsocketConnectionService) { }
+  ngOnInit(): void {
+    this.websocketConnectionService.active();
+  }
   @HostListener('contextmenu', ['$event'])
   onRightClick(event : any) {
     event.preventDefault();
-  }
-  ngOnInit() : void {
-    this.websocketService.subscribe('/topic/messages', ()=> {
-      
-    })
   }
 }

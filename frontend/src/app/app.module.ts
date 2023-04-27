@@ -25,7 +25,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { EscapeDirective } from './core/directives/escape/escape.directive';
 import { ContextMenuComponent } from './shared/context-menu/context-menu.component';
-import { WebsocketService } from './core/services/websocket/websocket.service';
+import { WebsocketService } from './core/services/websocket-config/websocket.service';
 
 
 @NgModule({
