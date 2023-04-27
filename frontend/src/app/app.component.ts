@@ -1,15 +1,19 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { WebsocketService } from './core/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'frontend';
-  constructor() { }
+  constructor(private websocketService : WebsocketService) { }
   @HostListener('contextmenu', ['$event'])
   onRightClick(event : any) {
     event.preventDefault();
+  }
+  ngOnInit() : void {
+    this.websocketService.socketSubscription()
   }
 }
