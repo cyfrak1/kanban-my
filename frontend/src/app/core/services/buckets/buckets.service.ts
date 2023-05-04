@@ -46,12 +46,7 @@ export class BucketsService {
     .subscribe((res) => this.addNewBucketRes.next(res));
   }
   deleteBucket(bucketId : number){
-    this.delete(bucketId)
-  }
-  private delete(bucketId : number) : void{
-    this.http.delete(`${this.api}/delete/${bucketId}`, {headers : this.headers, responseType:"text"})
-    .pipe(catchError(this.errorHandler))
-    .subscribe((res) => this.deleteBucketRes.next(res));
+    return this.http.delete(`${this.api}/delete/${bucketId}`, {headers : this.headers, responseType:"text"})
   }
   private errorHandler( error : HttpErrorResponse ){
     return throwError(()=>{ return error });

@@ -8,10 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { taskServerRes } from 'src/app/core/interfaces/taskInterface';
 import { TasksService } from 'src/app/core/services/tasks/tasks.service';
 import { BucketComponent } from '../bucket/bucket.component';
-import { CdkDragMove } from '@angular/cdk/drag-drop';
 import { LabelsService } from 'src/app/core/services/labels/labels.service';
 import { PassDataToDialog } from 'src/app/core/interfaces/dialogInterface';
 import { Constants } from 'src/app/config/constants';
+import { WebsocketConnectionService } from 'src/app/core/services/websocket-connection/websocket-connection.service';
+import { WebsocketService } from 'src/app/core/services/websocket-config/websocket.service';
+import { websocketResponseType } from 'src/app/core/types/websocketResponse';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -40,11 +42,16 @@ export class CardComponent implements OnInit {
     private contextMenuService : ContextMenuService,
     private tasksService : TasksService,
     private labelsService : LabelsService,
+    private websocketService : WebsocketService,
+    private websocketConnectionService : WebsocketConnectionService
   ) { }
 
   ngOnInit(): void {
     this.getAllLabels();
     this.checkIfDotIsActive();
+    this.websocketConnectionService.webSocketConnectionResponse().subscribe((res : websocketResponseType)=>{
+      
+    })
   }
   getAllLabels() : void {
     this.labelsService.getAllLabels(this.taskData.taskId).subscribe((res : labelServerRes[])=>{
@@ -76,6 +83,7 @@ export class CardComponent implements OnInit {
   onDrag(event : any){
     this.taskData.bucketId = event.container._changeDetectorRef._lView[22][3][8].bucketData.id;
     this.tasksService.updateTask(this.taskData).subscribe((res)=>{});
+    this.websocketService.send('tasks');
   }
   cardClicked() : void {
     this.passDataToDialog();

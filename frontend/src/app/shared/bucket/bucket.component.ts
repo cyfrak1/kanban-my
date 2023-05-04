@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
@@ -7,9 +7,8 @@ import { BucketsService } from 'src/app/core/services/buckets/buckets.service';
 import { taskServerRes } from 'src/app/core/interfaces/taskInterface';
 import { TasksService } from 'src/app/core/services/tasks/tasks.service';
 import { WebsocketService } from 'src/app/core/services/websocket-config/websocket.service';
-import { websocketResponseType } from 'src/app/core/types/websocketResponse';
 import { WebsocketConnectionService } from 'src/app/core/services/websocket-connection/websocket-connection.service';
-
+import { websocketResponseType } from 'src/app/core/types/websocketResponse';
 @Component({
   selector: 'app-bucket',
   templateUrl: './bucket.component.html',
@@ -37,7 +36,6 @@ export class BucketComponent implements OnInit {
     private websocketService : WebsocketService,
     private websocketConnectionService : WebsocketConnectionService,
   ) { }
-
   ngOnInit(): void {
     const isSerialNumberCorrect = this.checkSerialNumber();
     if(isSerialNumberCorrect){
@@ -45,7 +43,7 @@ export class BucketComponent implements OnInit {
     }
     this.getAllTasks();
     this.websocketConnectionService.webSocketConnectionResponse().subscribe((res : websocketResponseType)=>{
-      if(res == 'tasks') {
+      if(res == "tasks") {
         this.getAllTasks();
       }
     })
@@ -81,8 +79,9 @@ export class BucketComponent implements OnInit {
       tasks.forEach((element, currentIndex)=>{
         element.taskSpotInBucket = currentIndex;
       });
-      this.tasksService.updateAllTasks(this.bucketData.id,event.container.data).subscribe();
-      this.websocketService.send('tasks');
+      this.tasksService.updateAllTasks(this.bucketData.id,event.container.data).subscribe(()=>{
+        this.websocketService.send('tasks');
+      });
     },1)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -121,8 +120,10 @@ export class BucketComponent implements OnInit {
     this.isEditModeActive = false;
   }
   deleteBucket() : void {
-    this.bucketsService.deleteBucket(this.bucketData.id);
-    this.websocketService.send('buckets');
+    const subscription = this.bucketsService.deleteBucket(this.bucketData.id).subscribe(()=>{
+      this.websocketService.send('buckets');
+      subscription.unsubscribe();
+    });
     this.isBucketActive = false;
   }
 }
