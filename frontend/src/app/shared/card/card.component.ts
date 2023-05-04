@@ -50,7 +50,9 @@ export class CardComponent implements OnInit {
     this.getAllLabels();
     this.checkIfDotIsActive();
     this.websocketConnectionService.webSocketConnectionResponse().subscribe((res : websocketResponseType)=>{
-      
+      if(res == "labels"){
+        this.getAllLabels();
+      }
     })
   }
   getAllLabels() : void {

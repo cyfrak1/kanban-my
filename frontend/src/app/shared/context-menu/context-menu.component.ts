@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContextMenuService } from 'src/app/core/services/context-menu/context-menu.service';
 import { ContextMenuData } from 'src/app/core/interfaces/contextMenuInterface';
-import { ClickedOnElement } from 'src/app/core/types/contextMenu';
 import { ViewportScroller } from '@angular/common';
-
 @Component({
   selector: 'app-context-menu',
   templateUrl: './context-menu.component.html',

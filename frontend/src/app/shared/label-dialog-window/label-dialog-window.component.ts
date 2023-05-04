@@ -111,9 +111,9 @@ export class LabelDialogWindowComponent implements OnInit {
       this.dialogData.taskDescription = inputAsideContent.textContent;
     }
     this.tasksService.updateTask(this.dialogData).subscribe(()=>{});
-  //   this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
-  //     this.router.navigate(['/dashboard']);
-  // }); 
+    this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/dashboard']);
+  }); 
   }
   changeDialogSize() : void {
     document.documentElement.style.setProperty('--heightOfDialog', '10px');

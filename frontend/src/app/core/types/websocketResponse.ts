@@ -1,1 +1,1 @@
-export type websocketResponseType = 'buckets' | 'tasks';
+export type websocketResponseType = 'buckets' | 'tasks' | 'labels';

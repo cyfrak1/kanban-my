@@ -44,7 +44,7 @@ export class BucketComponent implements OnInit {
     this.getAllTasks();
     this.websocketConnectionService.webSocketConnectionResponse().subscribe((res : websocketResponseType)=>{
       if(res == "tasks") {
-        this.getAllTasks();
+        // this.getAllTasks();
       }
     })
   }
