@@ -5,7 +5,6 @@ import { CloseDialogService } from 'src/app/core/services/close-dialog/close-dia
 import { MatDialogRef } from '@angular/material/dialog';
 import { LabelComponent } from '../label/label.component';
 import { TasksService } from 'src/app/core/services/tasks/tasks.service';
-import { BucketComponent } from '../bucket/bucket.component';
 import { Router } from '@angular/router';
 import { labelServerRes } from 'src/app/core/interfaces/labelInterface';
 import { LabelsService } from 'src/app/core/services/labels/labels.service';
